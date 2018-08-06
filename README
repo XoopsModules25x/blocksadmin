@@ -52,6 +52,8 @@ If you want to use WYSIWYG editor (SPAW) for editign custom blocks, install Tiny
 
 CHANGELOG:
 
+2005-11-13 0.31 modified the compatibility with PHP 5.0.5
+                modified some files from CR+LF into LF
 2005-06-09 0.30 fixed 'area' of GTicket in myblocksadmin
 2005-05-25 0.29 modified supporting nobunobu's SPAW based on 1.10RC
                 modified XoopsGTicket supports 'area' and 'referer'

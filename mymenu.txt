@@ -97,6 +97,8 @@ xoops_cp_footer() ;
 
 CHANGELOG:
 
+2005-11-13 0.15 modified the compatibility with PHP 5.0.5
+                modified some files from CR+LF into LF
 2005-06-09 0.14 modified 'area' in preference.inc.php
 2005-05-25 0.13 modified XoopsGTicket supports 'area' and 'referer'
 2005-02-22 0.12 fixed a typo of HTML tag

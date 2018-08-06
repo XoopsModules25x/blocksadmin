@@ -1,7 +1,9 @@
 <?php
 // $Id$
 
-	if( ! defined( 'XOOPS_ROOT_PATH' ) ) exit ;
+if( ! defined( 'XOOPS_ROOT_PATH' ) ) exit ;
+
+if( substr( XOOPS_VERSION , 6 , 3 ) < 2.1 ) {
 
 	// Keep Block option values when update (by nobunobu)
 	global $xoopsDB;
@@ -91,5 +93,7 @@
 		$msgs = array_merge( $msgs , $local_msgs ) ;
 		$myblocksadmin_parsed_updateblock = true ;
 	}
+
+}
 
 ?>
