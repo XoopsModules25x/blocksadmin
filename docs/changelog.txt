@@ -1,0 +1,43 @@
+<h5>0.35 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.9, PHP 7.2.7
+<hr>
+- added footer blocks
+WORK IN PROGRESS
+
+<h5>0.34 Dugris</h5>
+<hr>
+
+<h5>0.33 GIJoe</h5>
+<hr>
+
+2006-05-03 0.17 updated gticket2
+2006-02-10 0.16 fixed compatibility problem with XoopsCube2.1alpha (thx nobunobu)
+2005-11-13 0.15 modified the compatibility with PHP 5.0.5
+                modified some files from CR+LF into LF
+                fixed some Notices in saving preferences (0.15a)
+2005-06-09 0.14 modified 'area' in preference.inc.php
+2005-05-25 0.13 modified XoopsGTicket supports 'area' and 'referer'
+2005-02-22 0.12 fixed a typo of HTML tag
+2005-02-21 0.11 disable checking IP
+                modified not to display top menu against ORETEKI
+                modified HTML of menu
+2005-01-13 0.10 modified ticket system (limit stubs max 10)
+                fixed the highlight and the link to configs
+2005-01-04 0.08 modified the usage of XoopsForm (thx okuhiki)
+2004-12-30 0.07 modified using $_SERVER instead of $_ENV (thx Marijuana)
+2004-12-16 0.06 eliminated unsed codes from preferences.inc.php for the security
+2004-12-10 0.05 modified ticket system
+2004-12-06 0.04 modified ticket system
+2004-12-05 0.03 modified ticket system
+2004-12-03 0.02 modified to use $_GET or $_POST instead of $HTTP_*_VARS (mari)
+                added admin_refcheck() for security (mari)
+                added ticket system for security (mari)
+                eliminated foreach() extraction from $_POST (mari)
+                fixed a place to include language files (thx marcan)
+2004-06-15 0.01 the first release
+
+
+
+COPYRIGHT:
+
+I do not insist on the right of these codes, and don't guarantee.
+

@@ -1,5 +1,3 @@
 <?php
 
-define( '_BLOCKS_ADMIN_CUSTOM' , 'Custom Blocks' ) ;
-
-?>
+define('_BLOCKS_ADMIN_CUSTOM', 'Custom Blocks');
