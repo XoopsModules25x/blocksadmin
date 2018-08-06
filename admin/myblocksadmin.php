@@ -7,9 +7,14 @@
 
 include_once( '../../../include/cp_header.php' ) ;
 
-if( substr( XOOPS_VERSION , 6 , 3 ) > 2.0 ) {
-	include 'myblocksadmin2.php' ;
-	exit ;
+//if( substr( XOOPS_VERSION , 6 , 3 ) > 2.0 ) {
+//	include 'myblocksadmin2.php' ;
+//	exit ;
+//}
+
+if( substr( XOOPS_VERSION , 6 , 3 ) > 2.0 && substr( XOOPS_VERSION , 6 , 3 ) < 2.3) {
+    include 'myblocksadmin2.php' ;
+    exit ;
 }
 
 include_once( 'mygrouppermform.php' ) ;
@@ -100,8 +105,8 @@ function list_blocks()
 	$class = 'even' ;
 	$block_configs = get_block_configs() ;
 	foreach( array_keys( $block_arr ) as $i ) {
-		$sseln = $ssel0 = $ssel1 = $ssel2 = $ssel3 = $ssel4 = "";
-		$scoln = $scol0 = $scol1 = $scol2 = $scol3 = $scol4 = "#FFFFFF";
+  $sseln = $ssel0 = $ssel1 = $ssel2 = $ssel3 = $ssel4 = $ssel5 = $ssel6 = $ssel7 = "";
+  $scoln = $scol0 = $scol1 = $scol2 = $scol3 = $scol4 = $scol5 = $scol6 = $scol7 = "#FFFFFF";
 
 		$weight = $block_arr[$i]->getVar("weight") ;
 		$title = $block_arr[$i]->getVar("title") ;
@@ -135,6 +140,18 @@ function list_blocks()
 				$ssel3 = " checked='checked'";
 				$scol3 = "#00FF00";
 				break ;
+      case XOOPS_CENTERBLOCK_BOTTOMLEFT :
+	      $ssel5 = " checked='checked'";
+	      $scol5 = "#00FF00";
+	      break ;
+      case XOOPS_CENTERBLOCK_BOTTOMRIGHT :
+	      $ssel6 = " checked='checked'";
+	      $scol6 = "#00FF00";
+	      break ;
+      case XOOPS_CENTERBLOCK_BOTTOM :
+	      $ssel7 = " checked='checked'";
+	      $scol7 = "#00FF00";
+	      break ;
 		}
 
 		// bcachetime
@@ -204,23 +221,25 @@ function list_blocks()
 				<input type='text' name='title[$bid]' value='$title' size='20' />
 			</td>
 			<td class='$class' align='center' nowrap='nowrap' width='125px'>
-				<div style='float:left;background-color:$scol0;'>
-					<input type='radio' name='side[$bid]' value='".XOOPS_SIDEBLOCK_LEFT."' style='background-color:$scol0;' $ssel0 />
-				</div>
-				<div style='float:left;'>-</div>
-				<div style='float:left;background-color:$scol2;'>
-					<input type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_LEFT."' style='background-color:$scol2;' $ssel2 />
-				</div>
-				<div style='float:left;background-color:$scol3;'>
-					<input type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_CENTER."' style='background-color:$scol3;' $ssel3 />
-				</div>
-				<div style='float:left;background-color:$scol4;'>
-					<input type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_RIGHT."' style='background-color:$scol4;' $ssel4 />
-				</div>
-				<div style='float:left;'>-</div>
-				<div style='float:left;background-color:$scol1;'>
-					<input type='radio' name='side[$bid]' value='".XOOPS_SIDEBLOCK_RIGHT."' style='background-color:$scol1;' $ssel1 />
-				</div>
+<div align='center' >
+	<input style='background-color:$scol2;' type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_LEFT."'$ssel2 />
+	<input style='background-color:$scol3;'type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_CENTER."'$ssel3 />
+	<input style='background-color:$scol4;'type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_RIGHT."'$ssel4 />
+</div>
+<div>
+	<span style='float:right'>
+	<input style='background-color:$scol1;' type='radio' name='side[$bid]' value='".XOOPS_SIDEBLOCK_RIGHT."'$ssel1 />
+	</span>
+	<div align='left'>
+	<input style='background-color:$scol0;' type='radio' name='side[$bid]' value='".XOOPS_SIDEBLOCK_LEFT."'$ssel0 />
+	</div>
+</div>
+<div align='center'>
+	<input style='background-color:$scol5;' type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_BOTTOMLEFT."'$ssel5 />
+	<input style='background-color:$scol7;' type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_BOTTOM."'$ssel7 />
+	<input style='background-color:$scol6;' type='radio' name='side[$bid]' value='".XOOPS_CENTERBLOCK_BOTTOMRIGHT."'$ssel6 />
+</div>
+
 				<br />
 				<br />
 				<div style='float:left;width:40px;'>&nbsp;</div>
