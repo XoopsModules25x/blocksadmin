@@ -52,6 +52,8 @@ If you want to use WYSIWYG editor (SPAW) for editign custom blocks, install Tiny
 
 CHANGELOG:
 
+2006-02-10 0.32 fixed compatibility problem with XoopsCube2.1alpha (thx nobunobu)
+                modified cloning function as a module (thx nobunobu)
 2005-11-13 0.31 modified the compatibility with PHP 5.0.5
                 modified some files from CR+LF into LF
 2005-06-09 0.30 fixed 'area' of GTicket in myblocksadmin

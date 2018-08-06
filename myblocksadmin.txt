@@ -185,6 +185,7 @@ $modversion['blocks'][(block_number)]['can_clone'] = true ;
 
 CHANGELOG:
 
+2006-02-10 0.42 modified cloning function as a module (thx nobunobu)
 2005-11-13 0.41 modified the compatibility with PHP 5.0.5
                 modified some files from CR+LF into LF
 2005-08-09 0.40 added supporting XOOPS 2.2 provisionally
