@@ -1,0 +1,8 @@
+Credits
+===============
+
+Originally developed by  GIJoe PEAK Corp.(http://www.peak.ne.jp/)
+
+Several changes have been made by Burning from XOOPS France.
+
+Version 0.35 was updated to XOOPS 2.5.9 and PHP 7 by Michael Beck (Mamba)
