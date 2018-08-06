@@ -97,7 +97,8 @@ xoops_cp_footer() ;
 
 CHANGELOG:
 
-2006-02-10 0.32 fixed compatibility problem with XoopsCube2.1alpha (thx nobunobu)
+2006-05-03 0.17 updated gticket2
+2006-02-10 0.16 fixed compatibility problem with XoopsCube2.1alpha (thx nobunobu)
 2005-11-13 0.15 modified the compatibility with PHP 5.0.5
                 modified some files from CR+LF into LF
                 fixed some Notices in saving preferences (0.15a)

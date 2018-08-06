@@ -1,6 +1,6 @@
 <?php
 $modversion['name'] = 'blocksadmin' ;
-$modversion['version'] = '0.32' ;
+$modversion['version'] = '0.33' ;
 $modversion['description'] = '' ;
 $modversion['credits'] = "PEAK Corp.";
 $modversion['author'] = "GIJ=CHECKMATE<br />PEAK Corp.(http://www.peak.ne.jp/)" ;

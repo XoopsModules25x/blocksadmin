@@ -21,6 +21,8 @@ That's all.
 
 If you want to use WYSIWYG editor (SPAW) for editign custom blocks, install TinyD's spaw in XOOPS_ROOT_PATH/common/
 
+With GTicket2, user can repost even if he/she got Invalid session error.
+
 
 [/xlang:en]
 [xlang:ja]
@@ -47,11 +49,14 @@ If you want to use WYSIWYG editor (SPAW) for editign custom blocks, install Tiny
 
 カスタムブロックのエディタとしてWYSIWYGエディタ(SPAW)をご利用になりたい場合は、TinyD付属のSPAWを、XOOPS_ROOT_PATH/common にインストールしてください。
 
+なおGTicket2では、チケットが効かなかった場合の再投稿手段を実装してみました。今まで、不規則にInvalid Sessionが出ていた方はぜひお試しください。
+
 
 [/xlang:ja]
 
 CHANGELOG:
 
+2006-05-03 0.33 updated gticket2
 2006-02-10 0.32 fixed compatibility problem with XoopsCube2.1alpha (thx nobunobu)
                 modified cloning function as a module (thx nobunobu)
 2005-11-13 0.31 modified the compatibility with PHP 5.0.5
