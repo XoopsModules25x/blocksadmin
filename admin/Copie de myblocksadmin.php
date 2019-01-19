@@ -90,16 +90,16 @@ function list_blocks()
 
     // displaying TH
     echo "
-    <form action='admin.php' name='blockadmin' method='post'>
-        <table width='95%' class='outer' cellpadding='4' cellspacing='1'>
-        <tr valign='middle'>
-            <th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
-            <th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
-            <th align='center'>" . _AM_WEIGHT . "</th>
-            <th align='center'>" . _AM_VISIBLEIN . "</th>
-            <th align='center'>" . _AM_BCACHETIME . "</th>
-            <th align='right'>" . _AM_ACTION . "</th>
-        </tr>\n";
+	<form action='admin.php' name='blockadmin' method='post'>
+		<table width='95%' class='outer' cellpadding='4' cellspacing='1'>
+		<tr valign='middle'>
+			<th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
+			<th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
+			<th align='center'>" . _AM_WEIGHT . "</th>
+			<th align='center'>" . _AM_VISIBLEIN . "</th>
+			<th align='center'>" . _AM_BCACHETIME . "</th>
+			<th align='right'>" . _AM_ACTION . "</th>
+		</tr>\n";
 
     // blocks displaying loop
     $class = 'even';
@@ -218,79 +218,76 @@ function list_blocks()
 
         // displaying part
         echo "
-        <tr valign='middle'>
-            <td class='$class'>
-                $name
-                <br>
-                <input type='text' name='title[$bid]' value='$title' size='20'>
-            </td>
-            <td class='$class' align='center' nowrap='nowrap' width='125px'>
+		<tr valign='middle'>
+			<td class='$class'>
+				$name
+				<br>
+				<input type='text' name='title[$bid]' value='$title' size='20'>
+			</td>
+			<td class='$class' align='center' nowrap='nowrap' width='125px'>
 <div align='center' >
-    <input style='background-color:$scol2;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "'$ssel2>
-    <input style='background-color:$scol3;'type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "'$ssel3>
-    <input style='background-color:$scol4;'type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "'$ssel4>
+	<input style='background-color:$scol2;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_LEFT . "'$ssel2>
+	<input style='background-color:$scol3;'type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_CENTER . "'$ssel3>
+	<input style='background-color:$scol4;'type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_RIGHT . "'$ssel4>
 </div>
 <div>
-    <span style='float:right'>
-    <input style='background-color:$scol1;' type='radio' name='side[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "'$ssel1>
-    </span>
-    <div align='left'>
-    <input style='background-color:$scol0;' type='radio' name='side[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "'$ssel0>
-    </div>
+	<span style='float:right'>
+	<input style='background-color:$scol1;' type='radio' name='side[$bid]' value='" . XOOPS_SIDEBLOCK_RIGHT . "'$ssel1>
+	</span>
+	<div align='left'>
+	<input style='background-color:$scol0;' type='radio' name='side[$bid]' value='" . XOOPS_SIDEBLOCK_LEFT . "'$ssel0>
+	</div>
 </div>
 <div align='center'>
-    <input style='background-color:$scol5;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMLEFT . "'$ssel5>
-    <input style='background-color:$scol7;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOM . "'$ssel7>
-    <input style='background-color:$scol6;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . "'$ssel6>
+	<input style='background-color:$scol5;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMLEFT . "'$ssel5>
+	<input style='background-color:$scol7;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOM . "'$ssel7>
+	<input style='background-color:$scol6;' type='radio' name='side[$bid]' value='" . XOOPS_CENTERBLOCK_BOTTOMRIGHT . "'$ssel6>
 </div>
 
-                <br>
-                <br>
-                <div style='float:left;width:40px;'>&nbsp;</div>
-                <div style='float:left;background-color:$scoln;'>
-                    <input type='radio' name='side[$bid]' value='-1' style='background-color:$scoln;' $sseln>
-                </div>
-                <div style='float:left;'>" . _NONE . "</div>
-            </td>
-            <td class='$class' align='center'>
-                <input type='text' name=weight[$bid] value='$weight' size='3' maxlength='5' style='text-align:right;'>
-            </td>
-            <td class='$class' align='center'>
-                <select name='bmodule[$bid][]' size='5' multiple='multiple'>
-                    $module_options
-                </select>
-            </td>
-            <td class='$class' align='center'>
-                <select name='bcachetime[$bid]' size='1'>
-                    $cachetime_options
-                </select>
-            </td>
-            <td class='$class' align='right'>
-                <a href='admin.php?fct=blocksadmin&amp;op=edit&amp;bid=$bid'>" . _EDIT . "</a>{$delete_link}{$clone_link}
-                <input type='hidden' name='bid[$bid]' value='$bid'>
-            </td>
-        </tr>\n";
+				<br>
+				<br>
+				<div style='float:left;width:40px;'>&nbsp;</div>
+				<div style='float:left;background-color:$scoln;'>
+					<input type='radio' name='side[$bid]' value='-1' style='background-color:$scoln;' $sseln>
+				</div>
+				<div style='float:left;'>" . _NONE . "</div>
+			</td>
+			<td class='$class' align='center'>
+				<input type='text' name=weight[$bid] value='$weight' size='3' maxlength='5' style='text-align:right;'>
+			</td>
+			<td class='$class' align='center'>
+				<select name='bmodule[$bid][]' size='5' multiple='multiple'>
+					$module_options
+				</select>
+			</td>
+			<td class='$class' align='center'>
+				<select name='bcachetime[$bid]' size='1'>
+					$cachetime_options
+				</select>
+			</td>
+			<td class='$class' align='right'>
+				<a href='admin.php?fct=blocksadmin&amp;op=edit&amp;bid=$bid'>" . _EDIT . "</a>{$delete_link}{$clone_link}
+				<input type='hidden' name='bid[$bid]' value='$bid'>
+			</td>
+		</tr>\n";
 
         $class = ('even' === $class) ? 'odd' : 'even';
     }
 
     echo "
-        <tr>
-            <td class='foot' align='center' colspan='6'>
-                <input type='hidden' name='query4redirect' value='$query4redirect'>
-                <input type='hidden' name='fct' value='blocksadmin'>
-                <input type='hidden' name='op' value='order'>
-                " . $GLOBALS['xoopsSecurity']->getTokenHTML('myblocksadmin') . "
-                <input type='submit' name='submit' value='" . _SUBMIT . "'>
-            </td>
-        </tr>
-        </table>
-    </form>\n";
+		<tr>
+			<td class='foot' align='center' colspan='6'>
+				<input type='hidden' name='query4redirect' value='$query4redirect'>
+				<input type='hidden' name='fct' value='blocksadmin'>
+				<input type='hidden' name='op' value='order'>
+				" . $GLOBALS['xoopsSecurity']->getTokenHTML('myblocksadmin') . "
+				<input type='submit' name='submit' value='" . _SUBMIT . "'>
+			</td>
+		</tr>
+		</table>
+	</form>\n";
 }
 
-/**
- * @return array
- */
 function get_block_configs()
 {
     $error_reporting_level = error_reporting(0);

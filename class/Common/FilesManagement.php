@@ -25,7 +25,6 @@ trait FilesManagement
      * @param string $folder The full path of the directory to check
      *
      * @throws \RuntimeException
-     * @return void
      */
     public static function createFolder($folder)
     {
