@@ -39,7 +39,7 @@ if (empty($fct)) {
     $fct = 'preferences';
 }
 //if (isset($fct) && $fct == "users") {
-//	$xoopsOption['pagetype'] = "user";
+//  $xoopsOption['pagetype'] = "user";
 //}
 
 require_once XOOPS_ROOT_PATH . '/kernel/module.php';
@@ -77,13 +77,13 @@ if (0 != $admintest) {
             }
             include XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php';
             $syspermHandler = xoops_getHandler('groupperm');
-            $category       = !empty($modversion['category']) ? (int)$modversion['category'] : 0;
+            $category = !empty($modversion['category']) ? (int)$modversion['category'] : 0;
             unset($modversion);
             if ($category > 0) {
                 $groups = $xoopsUser->getGroups();
-                if (in_array(XOOPS_GROUP_ADMIN, $groups) || false !== $syspermHandler->checkRight('system_admin', $category, $groups, $xoopsModule->getVar('mid'))) {
-                    //					if (file_exists(XOOPS_ROOT_PATH."/modules/system/admin/".$fct."/main.php")) {
-                    //						require_once XOOPS_ROOT_PATH."/modules/system/admin/".$fct."/main.php"; GIJ
+                if (in_array(XOOPS_GROUP_ADMIN, $groups, true) || false !== $syspermHandler->checkRight('system_admin', $category, $groups, $xoopsModule->getVar('mid'))) {
+                    //                  if (file_exists(XOOPS_ROOT_PATH."/modules/system/admin/".$fct."/main.php")) {
+                    //                      require_once XOOPS_ROOT_PATH."/modules/system/admin/".$fct."/main.php"; GIJ
                     if (file_exists("../include/{$fct}.inc.php")) {
                         require_once "../include/{$fct}.inc.php";
                     } else {
@@ -116,22 +116,22 @@ if (false !== $error) {
     echo '<tr>';
     $groups = $xoopsUser->getGroups();
     $all_ok = false;
-    if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
+    if (!in_array(XOOPS_GROUP_ADMIN, $groups, true)) {
         $syspermHandler = xoops_getHandler('groupperm');
-        $ok_syscats     = $syspermHandler->getItemIds('system_admin', $groups);
+        $ok_syscats = $syspermHandler->getItemIds('system_admin', $groups);
     } else {
         $all_ok = true;
     }
     $admin_dir = XOOPS_ROOT_PATH . '/modules/system/admin';
-    $handle    = opendir($admin_dir);
-    $counter   = 0;
-    $class     = 'even';
+    $handle = opendir($admin_dir);
+    $counter = 0;
+    $class = 'even';
     while ($file = readdir($handle)) {
-        if ('cvs' !== strtolower($file) && !preg_match('/[.]/', $file) && is_dir($admin_dir . '/' . $file)) {
+        if ('cvs' !== mb_strtolower($file) && !preg_match('/[.]/', $file) && is_dir($admin_dir . '/' . $file)) {
             include $admin_dir . '/' . $file . '/xoops_version.php';
             if ($modversion['hasAdmin']) {
                 $category = isset($modversion['category']) ? (int)$modversion['category'] : 0;
-                if (false !== $all_ok || in_array($modversion['category'], $ok_syscats)) {
+                if (false !== $all_ok || in_array($modversion['category'], $ok_syscats, true)) {
                     echo "<td class='$class' align='center' valign='bottom' width='19%'>";
                     echo "<a href='" . XOOPS_URL . '/modules/system/admin.php?fct=' . $file . "'><b>" . trim($modversion['name']) . "</b></a>\n";
                     echo '</td>';

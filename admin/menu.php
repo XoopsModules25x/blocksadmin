@@ -1,15 +1,13 @@
 <?php
 
-use XoopsModules\Blocksadmin;
-
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName);
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /** @var \XoopsModules\Blocksadmin\Helper $helper */
 $helper = \XoopsModules\Blocksadmin\Helper::getInstance();
@@ -21,10 +19,10 @@ if (is_object($helper->getModule())) {
 }
 
 $adminmenu[0]['title'] = _BLOCKS_ADMIN_CUSTOM;
-$adminmenu[0]['link']  = 'admin/myblocksadmin.php?mid=0';
+$adminmenu[0]['link'] = 'admin/myblocksadmin.php?mid=0';
 
 $moduleHandler4menu = xoops_getHandler('module');
-$criteria4menu      = new CriteriaCompo(new Criteria('isactive', 1));
+$criteria4menu = new CriteriaCompo(new Criteria('isactive', 1));
 //$criteria4menu->add(new Criteria('hasmain', 1));
 $criteria4menu->add(new Criteria('mid', '1', '>'));
 $modules4menu = $moduleHandler4menu->getObjects($criteria4menu, true);
@@ -33,13 +31,12 @@ array_unshift($modules4menu, $moduleHandler4menu->get(1));
 foreach ($modules4menu as $m4menu) {
     $adminmenu[] = [
         'title' => $m4menu->getVar('name'),
-        'link'  => 'admin/myblocksadmin.php?dirname=' . $m4menu->getVar('dirname')
+        'link' => 'admin/myblocksadmin.php?dirname=' . $m4menu->getVar('dirname'),
     ];
 }
 
 $adminmenu[] = [
     'title' => _AM_MODULEADMIN_ABOUT,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png'
+    'link' => 'admin/about.php',
+    'icon' => $pathIcon32 . '/about.png',
 ];
-

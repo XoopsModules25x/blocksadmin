@@ -4,6 +4,13 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
+/**
+ * @param      $DB
+ * @param      $gperm_modid
+ * @param null $gperm_name
+ * @param null $gperm_itemid
+ * @return bool
+ */
 function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
     $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
@@ -17,6 +24,7 @@ function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid =
     if (!$result = $DB->query($sql)) {
         return false;
     }
+
     return true;
 }
 
@@ -28,13 +36,13 @@ if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {
     exit();
 }
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->get($modid);
+$module = $moduleHandler->get($modid);
 if (!is_object($module) || !$module->getVar('isactive')) {
     redirect_header(XOOPS_URL . '/admin.php', 1, _MODULENOEXIST);
     exit();
 }
 $memberHandler = xoops_getHandler('member');
-$group_list    = $memberHandler->getGroupList();
+$group_list = $memberHandler->getGroupList();
 if (is_array($_POST['perms']) && !empty($_POST['perms'])) {
     $gpermHandler = xoops_getHandler('groupperm');
     foreach ($_POST['perms'] as $perm_name => $perm_data) {
@@ -48,14 +56,14 @@ if (is_array($_POST['perms']) && !empty($_POST['perms'])) {
                     continue;
                 }
                 foreach ($perm_data['groups'] as $group_id => $item_ids) {
-                    //				foreach ($item_ids as $item_id => $selected) {
+                    //              foreach ($item_ids as $item_id => $selected) {
                     $selected = isset($item_ids[$item_id]) ? $item_ids[$item_id] : 0;
                     if (1 == $selected) {
                         // make sure that all parent ids are selected as well
                         if ('' != $perm_data['parents'][$item_id]) {
                             $parent_ids = explode(':', $perm_data['parents'][$item_id]);
                             foreach ($parent_ids as $pid) {
-                                if (0 != $pid && !in_array($pid, array_keys($item_ids))) {
+                                if (0 != $pid && !array_key_exists($pid, $item_ids)) {
                                     // one of the parent items were not selected, so skip this item
                                     $msg[] = sprintf(_MD_AM_PERMADDNG, '<b>' . $perm_name . '</b>', '<b>' . $perm_data['itemname'][$item_id] . '</b>', '<b>' . $group_list[$group_id] . '</b>') . ' (' . _MD_AM_PERMADDNGP . ')';
                                     continue 2;

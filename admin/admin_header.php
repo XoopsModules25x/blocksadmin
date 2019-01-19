@@ -17,9 +17,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-
-use XoopsModules\Blocksadmin;
-
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 //require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');

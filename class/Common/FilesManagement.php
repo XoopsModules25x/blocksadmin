@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin\Common;
+<?php
+
+namespace XoopsModules\Blocksadmin\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,8 +24,8 @@ trait FilesManagement
      *
      * @param string $folder The full path of the directory to check
      *
-     * @return void
      * @throws \RuntimeException
+     * @return void
      */
     public static function createFolder($folder)
     {
@@ -35,8 +37,7 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }
@@ -116,11 +117,11 @@ trait FilesManagement
             // Clean up
             $dir->close();
         }
+
         return true;
     }
 
     /**
-     *
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
@@ -165,11 +166,11 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
+
         return $success;
     }
 
     /**
-     *
      * Recursively remove directory
      *
      * @todo currently won't remove directories with hidden files, should it?
@@ -197,7 +198,7 @@ trait FilesManagement
         foreach ($iterator as $fObj) {
             if ($fObj->isFile()) {
                 $filename = $fObj->getPathname();
-                $fObj     = null; // clear this iterator object to close the file
+                $fObj = null; // clear this iterator object to close the file
                 if (!unlink($filename)) {
                     return false; // couldn't delete the file
                 }
@@ -287,6 +288,7 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
+
         return true;
     }
 }

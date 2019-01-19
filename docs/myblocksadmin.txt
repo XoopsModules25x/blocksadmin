@@ -44,8 +44,8 @@ HOW TO USE:
 
 3) edit admin/menu.php and append a menu item like this:
 
-	$adminmenu[] = array( 'title' => _MI_SYSTEM_ADMENU2 ,
-	                      'link' => "admin/myblocksadmin.php" ) ;
+    $adminmenu[] = array( 'title' => _MI_SYSTEM_ADMENU2 ,
+                          'link' => "admin/myblocksadmin.php" ) ;
 
 4) If you want to add a feature keeping block's options when module is updated:
 
@@ -54,7 +54,7 @@ HOW TO USE:
 [code]
 // On Update
 if( ! empty( $_POST['fct'] ) && ! empty( $_POST['op'] ) && $_POST['fct'] == 'modulesadmin' && $_POST['op'] == 'update_ok' && $_POST['dirname'] == $modversion['dirname'] ) {
-	include dirname( __FILE__ ) . "/include/onupdate.inc.php" ;
+    include dirname( __FILE__ ) . "/include/onupdate.inc.php" ;
 }
 [/code]
 
@@ -143,8 +143,8 @@ XOOPSのブロック管理・グループ管理はあまりにも使いづらい
 
 4) admin/menu.php をエディタで開き、こんな感じで１行追加して下さい。
 
-	$adminmenu[] = array( 'title' => _MI_SYSTEM_ADMENU2 ,
-	                      'link' => "admin/myblocksadmin.php" ) ;
+    $adminmenu[] = array( 'title' => _MI_SYSTEM_ADMENU2 ,
+                          'link' => "admin/myblocksadmin.php" ) ;
 
 
 5) もし、ブロックオプションの保存機能が必要でしたら、xoops_version.php の最後に、
@@ -152,11 +152,11 @@ XOOPSのブロック管理・グループ管理はあまりにも使いづらい
 [code]
 // On Update
 if( ! empty( $_POST['fct'] ) && ! empty( $_POST['op'] ) && $_POST['fct'] == 'modulesadmin' && $_POST['op'] == 'update_ok' && $_POST['dirname'] == $modversion['dirname'] ) {
-	include dirname( __FILE__ ) . "/include/onupdate.inc.php" ;
+    include dirname( __FILE__ ) . "/include/onupdate.inc.php" ;
 }
 [/code]
 
-  と記述し、onupdate.inc.php.sample を 
+  と記述し、onupdate.inc.php.sample を
 
   modules/(dirname)/include/onupdate.inc.php
 

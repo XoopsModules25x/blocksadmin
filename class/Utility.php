@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin;
+<?php
+
+namespace XoopsModules\Blocksadmin;
 
 /*
  Utility Class Definition
@@ -23,10 +25,7 @@
  * @author       Mamba <mambax7@gmail.com>
  * @since        File available since version 1.54
  */
-
-use Xmf\Request;
 use XoopsModules\Blocksadmin;
-use XoopsModules\Blocksadmin\Common;
 
 /**
  * Class Utility
@@ -34,9 +33,7 @@ use XoopsModules\Blocksadmin\Common;
 class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
-
     use Common\ServerStats; // getServerStats Trait
-
     use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
@@ -47,10 +44,10 @@ class Utility
      * www.cakephp.org
      *
      * @param string  $text         String to truncate.
-     * @param integer $length       Length of returned string, including ellipsis.
+     * @param int $length       Length of returned string, including ellipsis.
      * @param string  $ending       Ending to be appended to the trimmed string.
-     * @param boolean $exact        If false, $text will not be cut mid-word
-     * @param boolean $considerHtml If true, HTML tags would be handled correctly
+     * @param bool $exact        If false, $text will not be cut mid-word
+     * @param bool $considerHtml If true, HTML tags would be handled correctly
      *
      * @return string Trimmed string.
      */
@@ -58,14 +55,14 @@ class Utility
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (strlen(preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+            if (mb_strlen(preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-            $total_length = strlen($ending);
-            $open_tags    = [];
-            $truncate     = '';
+            $total_length = mb_strlen($ending);
+            $open_tags = [];
+            $truncate = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -75,63 +72,62 @@ class Utility
                         // if tag is a closing tag
                     } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
-                        $pos = array_search($tag_matchings[1], $open_tags);
+                        $pos = array_search($tag_matchings[1], $open_tags, true);
                         if (false !== $pos) {
                             unset($open_tags[$pos]);
                         }
                         // if tag is an opening tag
                     } elseif (preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list
-                        array_unshift($open_tags, strtolower($tag_matchings[1]));
+                        array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
                     }
                     // add html-tag to $truncate'd text
                     $truncate .= $line_matchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left            = $length - $total_length;
+                    $left = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
-                            if ($entity[1] + 1 - $entities_length <= $left) {
+                            if ($left >= $entity[1] + 1 - $entities_length) {
                                 $left--;
-                                $entities_length += strlen($entity[0]);
+                                $entities_length += mb_strlen($entity[0]);
                             } else {
                                 // no more characters left
                                 break;
                             }
                         }
                     }
-                    $truncate .= substr($line_matchings[2], 0, $left + $entities_length);
+                    $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
                     // maximum lenght is reached, so get off the loop
                     break;
-                } else {
-                    $truncate     .= $line_matchings[2];
-                    $total_length += $content_length;
                 }
+                $truncate .= $line_matchings[2];
+                $total_length += $content_length;
+
                 // if the maximum length is reached, get off the loop
                 if ($total_length >= $length) {
                     break;
                 }
             }
         } else {
-            if (strlen($text) <= $length) {
+            if (mb_strlen($text) <= $length) {
                 return $text;
-            } else {
-                $truncate = substr($text, 0, $length - strlen($ending));
             }
+            $truncate = mb_substr($text, 0, $length - mb_strlen($ending));
         }
         // if the words shouldn't be cut in the middle...
         if (!$exact) {
             // ...search the last occurance of a space...
-            $spacepos = strrpos($truncate, ' ');
+            $spacepos = mb_strrpos($truncate, ' ');
             if (isset($spacepos)) {
                 // ...and cut the text in this position
-                $truncate = substr($truncate, 0, $spacepos);
+                $truncate = mb_substr($truncate, 0, $spacepos);
             }
         }
         // add the defined ending to the text
@@ -155,19 +151,18 @@ class Utility
     {
         /** @var Blocksadmin\Helper $helper */
         if (null === $options) {
-            $options           = [];
-            $options['name']   = 'Editor';
-            $options['value']  = 'Editor';
-            $options['rows']   = 10;
-            $options['cols']   = '100%';
-            $options['width']  = '100%';
+            $options = [];
+            $options['name'] = 'Editor';
+            $options['value'] = 'Editor';
+            $options['rows'] = 10;
+            $options['cols'] = '100%';
+            $options['width'] = '100%';
             $options['height'] = '400px';
         }
 
         $isAdmin = $helper->isUserAdmin();
 
         if (class_exists('XoopsFormEditor')) {
-
             if ($isAdmin) {
                 $descEditor = new \XoopsFormEditor(ucfirst($options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
             } else {
