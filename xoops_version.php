@@ -1,31 +1,73 @@
 <?php
-$modversion['name'] = 'blocksadmin';
-$modversion['version'] = '0.35';
-$modversion['description'] = '';
-$modversion['credits'] = 'PEAK Corp.';
-$modversion['author'] = 'GIJ=CHECKMATE<br>PEAK Corp.(http://www.peak.ne.jp/), Dugris, Mamba';
-$modversion['license'] = 'GPL see LICENSE';
-$modversion['official'] = 0;
-$modversion['image'] = 'assets/images/logoModule.png';
-$modversion['dirname'] = 'blocksadmin';
 
-// Admin things
-$modversion['hasAdmin'] = 1;
-$modversion['adminindex'] = 'admin/myblocksadmin.php?mid=0';
-$modversion['adminmenu'] = 'admin/menu.php';
+$moduleDirName = basename(__DIR__);
 
-// Menu
-$modversion['system_menu'] = 1;
-$modversion['hasMain'] = 0;
+// ------------------- Informations ------------------- //
+$modversion = [
+    'version' => 0.4,
+    'module_status' => 'Alpha 1',
+    'release_date' => '2019/01/20',
+    'name' => _MI_BLOCKSADMIN_NAME,
+    'description' => _MI_BLOCKSADMIN_DESC,
+    'official' => 0,
+    //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
+    'author' => 'GIJ=CHECKMATE<br>PEAK Corp.(http://www.peak.ne.jp/), Dugris, Mamba',
+    'credits' => 'PEAK Corp., XOOPS Development Team',
+    'author_mail' => 'author-email',
+    'author_website_url' => 'https://xoops.org',
+    'author_website_name' => 'XOOPS',
+    'license' => 'GPL 2.0 or later',
+    'license_url' => 'www.gnu.org/licenses/gpl-2.0.html/',
+    'help' => 'page=help',
+    // ------------------- Folders & Files -------------------
+    'release_info' => 'Changelog',
+    'release_file' => XOOPS_URL . "/modules/$moduleDirName/docs/changelog.txt",
 
-// Search
-$modversion['hasSearch'] = 0;
-
-// Comments
-$modversion['hasComments'] = 0;
-
-// Config Settings (only for modules that need config settings generated automatically)
-
-// Notification
-
-$modversion['hasNotification'] = 0;
+    'manual' => 'link to manual file',
+    'manual_file' => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
+    // images
+    'image' => 'assets/images/logoModule.png',
+    'iconsmall' => 'assets/images/iconsmall.png',
+    'iconbig' => 'assets/images/iconbig.png',
+    'dirname' => $moduleDirName,
+    'modicons16' => 'assets/images/icons/16',
+    'modicons32' => 'assets/images/icons/32',
+    //About
+    'demo_site_url' => 'https://xoops.org',
+    'demo_site_name' => 'XOOPS Demo Site',
+    'support_url' => 'https://xoops.org/modules/newbb/viewforum.php?forum=28/',
+    'support_name' => 'Support Forum',
+    'submit_bug' => 'https://github.com/XoopsModules25x/' . $moduleDirName . '/issues',
+    'module_website_url' => 'www.xoops.org',
+    'module_website_name' => 'XOOPS Project',
+    // ------------------- Min Requirements -------------------
+    'min_php' => '5.5',
+    'min_xoops' => '2.5.9',
+    'min_admin' => '1.2',
+    'min_db' => ['mysql' => '5.5'],
+    // ------------------- Admin Menu -------------------
+    'system_menu' => 1,
+    'hasAdmin' => 1,
+//    'adminindex' => 'admin/index.php',
+    'adminindex' => 'admin/myblocksadmin.php?mid=0',
+    'adminmenu' => 'admin/menu.php',
+    // ------------------- Main Menu -------------------
+    'hasMain' => 0,
+    // ------------------- Install/Update -------------------
+//    'onInstall' => 'include/oninstall.php',
+//    'onUpdate' => 'include/onupdate.php',
+    //  'onUninstall'         => 'include/onuninstall.php',
+    // -------------------  PayPal ---------------------------
+    'paypal' => [
+        'business' => 'foundation@xoops.org',
+        'item_name' => 'Donation : ' . _MI_BLOCKSADMIN_NAME,
+        'amount' => 0,
+        'currency_code' => 'USD',
+    ],
+    // ------------------- Search ---------------------------
+    'hasSearch' => 0,
+    // ------------------- Comments -------------------------
+    'hasComments' => 0,
+    // ------------------- Notification ----------------------
+    'hasNotification' => 0,
+];
