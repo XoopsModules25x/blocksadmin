@@ -30,13 +30,13 @@ namespace XoopsModules\Blocksadmin\Common;
 class Configurator
 {
     public $name;
-    public $paths = [];
-    public $uploadFolders = [];
-    public $copyBlankFiles = [];
+    public $paths           = [];
+    public $uploadFolders   = [];
+    public $copyBlankFiles  = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles = [];
-    public $oldFolders = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
     public $modCopyright;
 
     /**
@@ -45,19 +45,19 @@ class Configurator
     public function __construct()
     {
         $moduleDirName = basename(dirname(dirname(__DIR__)));
-        $capsDirName = mb_strtoupper($moduleDirName);
+        $capsDirName   = mb_strtoupper($moduleDirName);
 
         require dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
 
-        $this->name = $config->name;
-        $this->paths = $config->paths;
-        $this->uploadFolders = $config->uploadFolders;
-        $this->copyBlankFiles = $config->copyBlankFiles;
+        $this->name            = $config->name;
+        $this->paths           = $config->paths;
+        $this->uploadFolders   = $config->uploadFolders;
+        $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
-        $this->oldFiles = $config->oldFiles;
-        $this->oldFolders = $config->oldFolders;
-        $this->modCopyright = $config->modCopyright;
+        $this->oldFiles        = $config->oldFiles;
+        $this->oldFolders      = $config->oldFolders;
+        $this->modCopyright    = $config->modCopyright;
     }
 }

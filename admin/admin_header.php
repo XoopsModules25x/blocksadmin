@@ -19,7 +19,7 @@
  */
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-//require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 require dirname(__DIR__) . '/include/common.php';
 //require  dirname(__DIR__) . '/include/config.php';
 

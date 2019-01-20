@@ -42,13 +42,13 @@ $side_select->addOptionArray([0 => _AM_SBLEFT, 1 => _AM_SBRIGHT, 3 => _AM_CBLEFT
 $form->addElement($side_select);
 $form->addElement(new XoopsFormText(_AM_WEIGHT, 'bweight', 2, 5, $block['weight']));
 $form->addElement(new XoopsFormRadioYN(_AM_VISIBLE, 'bvisible', $block['visible']));
-$mod_select = new XoopsFormSelect(_AM_VISIBLEIN, 'bmodule', $block['modules'], 5, true);
+$mod_select    = new XoopsFormSelect(_AM_VISIBLEIN, 'bmodule', $block['modules'], 5, true);
 $moduleHandler = xoops_getHandler('module');
-$criteria = new CriteriaCompo(new Criteria('hasmain', 1));
+$criteria      = new CriteriaCompo(new Criteria('hasmain', 1));
 $criteria->add(new Criteria('isactive', 1));
-$module_list = $moduleHandler->getList($criteria);
+$module_list     = $moduleHandler->getList($criteria);
 $module_list[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
-$module_list[0] = _AM_SYSTEM_BLOCKS_ALLPAGES;
+$module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
@@ -57,10 +57,10 @@ $form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' .
 if ($block['is_custom']) {
     // Custom Block's textarea
     $notice_for_tags = '<span style="font-size:x-small;font-weight:bold;">' . _AM_USEFULTAGS . '</span><br><span style="font-size:x-small;font-weight:normal;">' . sprintf(_AM_BLOCKTAG1, '{X_SITEURL}', XOOPS_URL . '/') . '</span>';
-    $current_op = 'clone' === @$_GET['op'] ? 'clone' : 'edit';
-    $uri_to_myself = XOOPS_URL . "/modules/blocksadmin/admin/admin.php?fct=blocksadmin&amp;op=$current_op&amp;bid={$block['bid']}";
+    $current_op      = 'clone' === @$_GET['op'] ? 'clone' : 'edit';
+    $uri_to_myself   = XOOPS_URL . "/modules/blocksadmin/admin/admin.php?fct=blocksadmin&amp;op=$current_op&amp;bid={$block['bid']}";
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts     = MyTextSanitizer::getInstance();
     $textarea = new XoopsFormDhtmlTextArea(_AM_CONTENT, 'bcontent', $myts->htmlSpecialChars($block['content']), 15, 70);
     $textarea->setDescription($notice_for_tags);
 
@@ -72,7 +72,7 @@ if ($block['is_custom']) {
 } else {
     if ('' != $block['template'] && !defined('XOOPS_ORETEKI')) {
         $tplfileHandler = xoops_getHandler('tplfile');
-        $btemplate = &$tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
+        $btemplate      = &$tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
         if (count($btemplate) > 0) {
             $form->addElement(new XoopsFormLabel(_AM_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&op=edittpl&id=' . $btemplate[0]->getVar('tpl_id') . '">' . _AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
         } else {

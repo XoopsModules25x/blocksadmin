@@ -25,6 +25,7 @@ namespace XoopsModules\Blocksadmin;
  * @author       Mamba <mambax7@gmail.com>
  * @since        File available since version 1.54
  */
+
 use XoopsModules\Blocksadmin;
 
 /**
@@ -33,7 +34,9 @@ use XoopsModules\Blocksadmin;
 class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+
     use Common\ServerStats; // getServerStats Trait
+
     use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
@@ -43,11 +46,11 @@ class Utility
      * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
      * www.cakephp.org
      *
-     * @param string  $text         String to truncate.
-     * @param int $length       Length of returned string, including ellipsis.
-     * @param string  $ending       Ending to be appended to the trimmed string.
-     * @param bool $exact        If false, $text will not be cut mid-word
-     * @param bool $considerHtml If true, HTML tags would be handled correctly
+     * @param string $text         String to truncate.
+     * @param int    $length       Length of returned string, including ellipsis.
+     * @param string $ending       Ending to be appended to the trimmed string.
+     * @param bool   $exact        If false, $text will not be cut mid-word
+     * @param bool   $considerHtml If true, HTML tags would be handled correctly
      *
      * @return string Trimmed string.
      */
@@ -61,8 +64,8 @@ class Utility
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = mb_strlen($ending);
-            $open_tags = [];
-            $truncate = '';
+            $open_tags    = [];
+            $truncate     = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -88,7 +91,7 @@ class Utility
                 $content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left = $length - $total_length;
+                    $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
@@ -107,7 +110,7 @@ class Utility
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
-                $truncate .= $line_matchings[2];
+                $truncate     .= $line_matchings[2];
                 $total_length += $content_length;
 
                 // if the maximum length is reached, get off the loop
@@ -151,12 +154,12 @@ class Utility
     {
         /** @var Blocksadmin\Helper $helper */
         if (null === $options) {
-            $options = [];
-            $options['name'] = 'Editor';
-            $options['value'] = 'Editor';
-            $options['rows'] = 10;
-            $options['cols'] = '100%';
-            $options['width'] = '100%';
+            $options           = [];
+            $options['name']   = 'Editor';
+            $options['value']  = 'Editor';
+            $options['rows']   = 10;
+            $options['cols']   = '100%';
+            $options['width']  = '100%';
             $options['height'] = '400px';
         }
 
