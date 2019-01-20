@@ -73,34 +73,34 @@ if (!defined('XOOPS_ORETEKI')) {
 
 
     // Initialize module handler
-    /* @var \XoopsModuleHandler $module_handler */
-    $module_handler = xoops_getHandler('module');
-    $modules        = $module_handler->getObjects(null, true);
+    /* @var \XoopsModuleHandler $moduleHandler */
+    $moduleHandler = xoops_getHandler('module');
+    $modules        = $moduleHandler->getObjects(null, true);
     $criteria       = new \CriteriaCompo(new \Criteria('hasmain', 1));
 
     $criteria->add(new \Criteria('isactive', 1));
     // Modules for blocks to be visible in
-    $display_list = $module_handler->getList($criteria);
+    $display_list = $moduleHandler->getList($criteria);
     unset($criteria);
 
     // Initialize blocks handler
-    /* @var SystemBlockHandler $block_handler */
-//    $block_handler5 = xoops_getHandler('Block');
+    /* @var SystemBlockHandler $blockHandler */
+//    $blockHandler5 = xoops_getHandler('Block');
 
-//    $block_handler = xoops_getModuleHandler('block');
-
-
-//    include_once __DIR__ . '/../../system/class/block.php';
-
-//    $block_handler = new \XoopsBlockHandler();
+//    $blockHandler = xoops_getModuleHandler('block');
 
 
+//    require_once  dirname(dirname(__DIR__)) . '/system/class/block.php';
 
-//    global $block_handler;
+//    $blockHandler = new \XoopsBlockHandler();
+
+
+
+//    global $blockHandler;
     // Initialize module handler
-    /* @var XoopsModuleHandler $module_handler */
-    $module_handler = xoops_getHandler('module');
-    $modules        = $module_handler->getObjects(null, true);
+    /* @var XoopsModuleHandler $moduleHandler */
+    $moduleHandler = xoops_getHandler('module');
+    $modules        = $moduleHandler->getObjects(null, true);
 
     $filterform = new \XoopsThemeForm('', 'filterform', 'myblocksadmin.php', 'get');
 //    $filterform->addElement(new \XoopsFormHidden('fct', 'blocksadmin'));
@@ -139,11 +139,11 @@ if (!defined('XOOPS_ORETEKI')) {
     $selgrp = null;
     $sel_grp = new XoopsFormSelect(_AM_SYSTEM_BLOCKS_GROUP, 'selgrp', $selgrp);
     $sel_grp->setExtra("onchange='submit()'");
-//    /* @var XoopsMemberHandler $member_handler */
+//    /* @var XoopsMemberHandler $memberHandler */
 
 /*
-    $member_handler = xoops_getHandler('member');
-    $group_list     = $member_handler->getGroupList();
+    $memberHandler = xoops_getHandler('member');
+    $group_list     = $memberHandler->getGroupList();
     $sel_grp->addOption(-1, _AM_SYSTEM_BLOCKS_TYPES);
     $sel_grp->addOption(0, _AM_SYSTEM_BLOCKS_UNASSIGNED);
     foreach ($group_list as $k => $v) {
@@ -168,13 +168,13 @@ if (!defined('XOOPS_ORETEKI')) {
 
 
 
-//    global $block_handler;
+//    global $blockHandler;
 
     if (0 == $selgrp) {
         // get blocks that are not assigned to any groups
-//        $blocks_arr = $block_handler->getNonGroupedBlocks($selmod, $toponlyblock = false, $selvis, $order_block);
+//        $blocks_arr = $blockHandler->getNonGroupedBlocks($selmod, $toponlyblock = false, $selvis, $order_block);
     } else {
-        $blocks_arr = $block_handler->getAllByGroupModule($selgrp, $selmod, $toponlyblock = false, $selvis, $order_block);
+        $blocks_arr = $blockHandler->getAllByGroupModule($selgrp, $selmod, $toponlyblock = false, $selvis, $order_block);
     }
 
     if ($selgen >= 0) {
@@ -190,7 +190,7 @@ if (!defined('XOOPS_ORETEKI')) {
         $arr[$i] = $blocks_arr[$i]->toArray();
         $xoopsTpl->append_by_ref('blocks', $arr[$i]);
     }
-//    $block     = $block_handler->create();
+//    $block     = $blockHandler->create();
 //    $blockform = $block->getForm();
     $xoopsTpl->assign('blockform', $filterform->render());
 */
