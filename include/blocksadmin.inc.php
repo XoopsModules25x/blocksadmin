@@ -140,12 +140,12 @@ if (isset($_POST['previewblock'])) {
     $block['visible']   = $bvisible;
     $block['title']     = $myblock->getVar('title', 'E');
     $block['content']   = $myblock->getVar('content', 'n');
-    $block['modules']   =& $bmodule;
+    $block['modules']   = &$bmodule;
     $block['ctype']     = isset($bctype) ? $bctype : $myblock->getVar('c_type');
     $block['is_custom'] = true;
-    $block['cachetime'] = (int)$bcachetime;
+    $block['cachetime'] = $bcachetime;
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br><br>';
-    include  dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
+    include dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
     //echo '<a href="admin.php?fct=blocksadmin">'. _AM_SYSTEM_BLOCKS_ADMIN .'</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;'.$block['form_title'].'<br><br>';
     //include XOOPS_ROOT_PATH.'/modules/system/admin/blocksadmin/blockform.php';
     $GLOBALS['xoopsSecurity']->getTokenHTML();
@@ -228,7 +228,7 @@ if ('order' === $op) {
         //    if ( $oldweight[$i] != $weight[$i] || $oldvisible[$i] != $visible[$i] || $oldside[$i] != $side[$i] )
         //    order_block($bid[$i], $weight[$i], $visible[$i], $side[$i]);
     }
-    $query4redirect = '?dirname=' . urlencode(strip_tags(substr($_POST['query4redirect'], 9)));
+    $query4redirect = '?dirname=' . urlencode(strip_tags(mb_substr($_POST['query4redirect'], 9)));
     redirect_header("myblocksadmin.php$query4redirect", 1, _AM_SYSTEM_DBUPDATED);
     // GIJ end
     exit();
@@ -240,13 +240,11 @@ if ('order2' === $op) {
     }
 
     if (isset($_POST['addblock']) && is_array($_POST['addblock'])) {
-
         // addblock
         foreach ($_POST['addblock'] as $bid => $val) {
             myblocksadmin_update_blockinstance(0, 0, 0, 0, '', null, null, 0, [], [], (int)$bid);
         }
     } else {
-
         // else change order
         if (!empty($_POST['side'])) {
             $side = $_POST['side'];
@@ -275,7 +273,7 @@ if ('order2' === $op) {
         }
     }
 
-    $query4redirect = '?dirname=' . urlencode(strip_tags(substr($_POST['query4redirect'], 9)));
+    $query4redirect = '?dirname=' . urlencode(strip_tags(mb_substr($_POST['query4redirect'], 9)));
     redirect_header("myblocksadmin.php$query4redirect", 1, _AM_SYSTEM_DBUPDATED);
     exit;
 }
@@ -342,7 +340,7 @@ if ('delete_ok' === $op) {
     $myblock->delete();
     if ('' != $myblock->getVar('template') && !defined('XOOPS_ORETEKI')) {
         $tplfileHandler = xoops_getHandler('tplfile');
-        $btemplate      =& $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $bid);
+        $btemplate      = &$tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $bid);
         if (count($btemplate) > 0) {
             $tplman->delete($btemplate[0]);
         }
@@ -361,13 +359,15 @@ if ('delete' === $op) {
         $message = _AM_SYSTEMCANT;
         redirect_header('admin.php?fct=blocksadmin', 4, $message);
         exit();
-    } elseif ('M' === $myblock->getVar('block_type')) {
+    }
+
+    if ('M' === $myblock->getVar('block_type')) {
         $message = _AM_MODULECANT;
         redirect_header('admin.php?fct=blocksadmin', 4, $message);
         exit();
-    } else {
-        xoops_confirm(['fct' => 'blocksadmin', 'op' => 'delete_ok', 'bid' => $myblock->getVar('bid')], 'admin.php', sprintf(_AM_RUSUREDEL, $myblock->getVar('title')));
     }
+    xoops_confirm(['fct' => 'blocksadmin', 'op' => 'delete_ok', 'bid' => $myblock->getVar('bid')], 'admin.php', sprintf(_AM_RUSUREDEL, $myblock->getVar('title')));
+
     // end of delete_block() GIJ
     xoops_cp_footer();
     exit();
@@ -385,28 +385,29 @@ if ('edit' === $op) {
     while (false !== ($row = $db->fetchArray($result))) {
         $modules[] = (int)$row['module_id'];
     }
-    $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type')) ? true : false;
-    $block     = ['form_title'    => _AM_SYSTEM_BLOCKS_EDITBLOCK,
-                  'name'          => $myblock->getVar('name'),
-                  'side'          => $myblock->getVar('side'),
-                  'weight'        => $myblock->getVar('weight'),
-                  'visible'       => $myblock->getVar('visible'),
-                  'title'         => $myblock->getVar('title', 'E'),
-                  'content'       => $myblock->getVar('content', 'n'),
-                  'modules'       => $modules,
-                  'is_custom'     => $is_custom,
-                  'ctype'         => $myblock->getVar('c_type'),
-                  'cachetime'     => $myblock->getVar('bcachetime'),
-                  'op'            => 'update',
-                  'bid'           => $myblock->getVar('bid'),
-                  'edit_form'     => $myblock->getOptions(),
-                  'template'      => $myblock->getVar('template'),
-                  'options'       => $myblock->getVar('options'),
-                  'submit_button' => _SUBMIT
+    $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+    $block     = [
+        'form_title'    => _AM_SYSTEM_BLOCKS_EDITBLOCK,
+        'name'          => $myblock->getVar('name'),
+        'side'          => $myblock->getVar('side'),
+        'weight'        => $myblock->getVar('weight'),
+        'visible'       => $myblock->getVar('visible'),
+        'title'         => $myblock->getVar('title', 'E'),
+        'content'       => $myblock->getVar('content', 'n'),
+        'modules'       => $modules,
+        'is_custom'     => $is_custom,
+        'ctype'         => $myblock->getVar('c_type'),
+        'cachetime'     => $myblock->getVar('bcachetime'),
+        'op'            => 'update',
+        'bid'           => $myblock->getVar('bid'),
+        'edit_form'     => $myblock->getOptions(),
+        'template'      => $myblock->getVar('template'),
+        'options'       => $myblock->getVar('options'),
+        'submit_button' => _SUBMIT,
     ];
 
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_EDITBLOCK . '<br><br>';
-    include  dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
+    include dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
     $GLOBALS['xoopsSecurity']->getTokenHTML();
     $form->display();
     // end of edit_block() GIJ
@@ -425,27 +426,28 @@ if ('clone' === $op) {
     while (false !== ($row = $db->fetchArray($result))) {
         $modules[] = (int)$row['module_id'];
     }
-    $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type')) ? true : false;
-    $block     = ['form_title'    => _AM_CLONEBLOCK,
-                  'name'          => $myblock->getVar('name'),
-                  'side'          => $myblock->getVar('side'),
-                  'weight'        => $myblock->getVar('weight'),
-                  'visible'       => $myblock->getVar('visible'),
-                  'content'       => $myblock->getVar('content', 'N'),
-                  'title'         => $myblock->getVar('title', 'E'),
-                  'modules'       => $modules,
-                  'is_custom'     => $is_custom,
-                  'ctype'         => $myblock->getVar('c_type'),
-                  'cachetime'     => $myblock->getVar('bcachetime'),
-                  'op'            => 'clone_ok',
-                  'bid'           => $myblock->getVar('bid'),
-                  'edit_form'     => $myblock->getOptions(),
-                  'template'      => $myblock->getVar('template'),
-                  'options'       => $myblock->getVar('options'),
-                  'submit_button' => _CLONE
+    $is_custom = ('C' === $myblock->getVar('block_type') || 'E' === $myblock->getVar('block_type'));
+    $block     = [
+        'form_title'    => _AM_CLONEBLOCK,
+        'name'          => $myblock->getVar('name'),
+        'side'          => $myblock->getVar('side'),
+        'weight'        => $myblock->getVar('weight'),
+        'visible'       => $myblock->getVar('visible'),
+        'content'       => $myblock->getVar('content', 'N'),
+        'title'         => $myblock->getVar('title', 'E'),
+        'modules'       => $modules,
+        'is_custom'     => $is_custom,
+        'ctype'         => $myblock->getVar('c_type'),
+        'cachetime'     => $myblock->getVar('bcachetime'),
+        'op'            => 'clone_ok',
+        'bid'           => $myblock->getVar('bid'),
+        'edit_form'     => $myblock->getOptions(),
+        'template'      => $myblock->getVar('template'),
+        'options'       => $myblock->getVar('options'),
+        'submit_button' => _CLONE,
     ];
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_CLONEBLOCK . '<br><br>';
-    include  dirname(__DIR__) . '/admin/myblockform.php';
+    include dirname(__DIR__) . '/admin/myblockform.php';
     $GLOBALS['xoopsSecurity']->getTokenHTML();
     $form->display();
     xoops_cp_footer();
@@ -504,7 +506,7 @@ if ('clone_ok' === $op) {
         xoops_cp_footer();
         exit();
     }
-    /*	if ($cblock->getVar('template') != '') {
+    /*  if ($cblock->getVar('template') != '') {
             $tplfileHandler = xoops_getHandler('tplfile');
             $btemplate =& $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $bid);
             if (count($btemplate) > 0) {
@@ -521,7 +523,7 @@ if ('clone_ok' === $op) {
         $db->query($sql);
     }
 
-    /*	global $xoopsUser;
+    /*  global $xoopsUser;
         $groups =& $xoopsUser->getGroups();
         $count = count($groups);
         for ($i = 0; $i < $count; $i++) {
@@ -541,6 +543,19 @@ if ('clone_ok' === $op) {
 }
 
 // import from modules/system/admin/blocksadmin/blocksadmin.php
+/**
+ * @param       $bid
+ * @param       $bside
+ * @param       $bweight
+ * @param       $bvisible
+ * @param       $btitle
+ * @param       $bcontent
+ * @param       $bctype
+ * @param       $bcachetime
+ * @param       $bmodule
+ * @param array $options
+ * @return string
+ */
 function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options = [])
 {
     global $xoopsConfig;
@@ -620,6 +635,20 @@ function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, 
 }
 
 // update block instance for 2.2
+/**
+ * @param       $id
+ * @param       $bside
+ * @param       $bweight
+ * @param       $bvisible
+ * @param       $btitle
+ * @param       $bcontent
+ * @param       $bctype
+ * @param       $bcachetime
+ * @param       $bmodule
+ * @param array $options
+ * @param null  $bid
+ * @return string
+ */
 function myblocksadmin_update_blockinstance($id, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options = [], $bid = null)
 {
     global $xoopsDB;
@@ -628,7 +657,7 @@ function myblocksadmin_update_blockinstance($id, $bside, $bweight, $bvisible, $b
     $blockHandler    = xoops_getHandler('block');
     if ($id > 0) {
         // update
-        $instance =& $instanceHandler->get($id);
+        $instance = &$instanceHandler->get($id);
         if ($bside >= 0) {
             $instance->setVar('side', $bside);
         }
@@ -661,11 +690,12 @@ function myblocksadmin_update_blockinstance($id, $bside, $bweight, $bvisible, $b
             $pageid = $page[1];
             $GLOBALS['xoopsDB']->query('INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('block_module_link') . ' VALUES (' . $instance->getVar('instanceid') . ', ' . (int)$mid . ', ' . (int)$pageid . ')');
         }
+
         return _AM_SYSTEM_DBUPDATED;
     }
-    return 'Failed update of block instance. ID:' . $id;
 
-    /*		// NAME for CUSTOM BLOCK
+    return 'Failed update of block instance. ID:' . $id;
+    /*      // NAME for CUSTOM BLOCK
             if ( $instance->getVar('block_type') == 'C') {
                 switch ( $instance->getVar('c_type') ) {
                 case 'H':
@@ -684,7 +714,7 @@ function myblocksadmin_update_blockinstance($id, $bside, $bweight, $bvisible, $b
                 $instance->setVar('name', $name);
             }
     */
-    /*			// CLEAR TEMPLATE CACHE
+    /*          // CLEAR TEMPLATE CACHE
                 require_once XOOPS_ROOT_PATH.'/class/template.php';
                 $xoopsTpl = new XoopsTpl();
                 $xoopsTpl->xoops_setCaching(2);

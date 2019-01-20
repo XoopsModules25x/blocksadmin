@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin\Common;
+<?php
+
+namespace XoopsModules\Blocksadmin\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,7 +24,6 @@ trait FilesManagement
      *
      * @param string $folder The full path of the directory to check
      *
-     * @return void
      * @throws \RuntimeException
      */
     public static function createFolder($folder)
@@ -116,11 +117,11 @@ trait FilesManagement
             // Clean up
             $dir->close();
         }
+
         return true;
     }
 
     /**
-     *
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
@@ -165,11 +166,11 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
+
         return $success;
     }
 
     /**
-     *
      * Recursively remove directory
      *
      * @todo currently won't remove directories with hidden files, should it?
@@ -287,6 +288,7 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
+
         return true;
     }
 }

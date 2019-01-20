@@ -29,8 +29,8 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 require __DIR__ . '/admin_header.php';
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 /** @var \XoopsModules\Blocksadmin\Helper $helper */
 $helper = \XoopsModules\Blocksadmin\Helper::getInstance();
@@ -45,7 +45,7 @@ if (isset($block['name'])) {
     $form->addElement(new XoopsFormLabel(_AM_SYSTEM_BLOCKS_NAME, $block['name']));
 }
 $side_select = new XoopsFormSelect(_AM_SYSTEM_BLOCKS_TYPE, 'bside', $block['side']);
-$side_select->addOptionArray([0 => _AM_SYSTEM_BLOCKS_SBLEFT, 1 => _AM_SYSTEM_BLOCKS_SBRIGHT, 3 => _AM_SYSTEM_BLOCKS_CBLEFT, 4 => _AM_SYSTEM_BLOCKS_CBRIGHT, 5 => _AM_SYSTEM_BLOCKS_CBCENTER, 7 => _AM_SYSTEM_BLOCKS_CBBOTTOMLEFT, 8 => _AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT, 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM,]);
+$side_select->addOptionArray([0 => _AM_SYSTEM_BLOCKS_SBLEFT, 1 => _AM_SYSTEM_BLOCKS_SBRIGHT, 3 => _AM_SYSTEM_BLOCKS_CBLEFT, 4 => _AM_SYSTEM_BLOCKS_CBRIGHT, 5 => _AM_SYSTEM_BLOCKS_CBCENTER, 7 => _AM_SYSTEM_BLOCKS_CBBOTTOMLEFT, 8 => _AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT, 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM]);
 $form->addElement($side_select);
 $form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT'), 'bweight', 2, 5, $block['weight']));
 $form->addElement(new XoopsFormRadioYN(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE'), 'bvisible', $block['visible']));
@@ -59,10 +59,9 @@ $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
-$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') , 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
 
 if ($block['is_custom']) {
-
     // Custom Block's textarea
     $notice_for_tags = '<span style="font-size:x-small;font-weight:bold;">' . _AM_SYSTEM_BLOCKS_USEFULTAGS . '</span><br><span style="font-size:x-small;font-weight:normal;">' . sprintf(_AM_BLOCKTAG1, '{X_SITEURL}', XOOPS_URL . '/') . '</span>';
     $current_op      = 'clone' === @$_GET['op'] ? 'clone' : 'edit';
@@ -111,21 +110,25 @@ $button_tray->addElement(new XoopsFormButton('', 'submitblock', $block['submit_b
 $form->addElement($button_tray);
 
 // checks browser compatibility with the control
+/**
+ * @return bool
+ */
 function check_browser_can_use_spaw()
 {
     $browser = $_SERVER['HTTP_USER_AGENT'];
     // check if msie
     if (preg_match('/MSIE[^;]*/i', $browser, $msie)) {
         // get version
-        if (preg_match("/[0-9]+\.[0-9]+/i", $msie[0], $version)) {
+        if (preg_match("/\d+\.\d+/i", $msie[0], $version)) {
             // check version
             if ((float)$version[0] >= 5.5) {
                 // finally check if it's not opera impersonating ie
-                if (false !== strpos($browser, 'opera')) {
+                if (false !== mb_strpos($browser, 'opera')) {
                     return true;
                 }
             }
         }
     }
+
     return false;
 }

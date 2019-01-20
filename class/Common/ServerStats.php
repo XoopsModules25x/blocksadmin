@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin\Common;
+<?php
+
+namespace XoopsModules\Blocksadmin\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +27,7 @@ trait ServerStats
     public static function getServerStats()
     {
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
-        $moduleDirNameUpper = strtoupper($moduleDirName);
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('common', $moduleDirName);
         $html = '';
         //        $sql   = 'SELECT metavalue';

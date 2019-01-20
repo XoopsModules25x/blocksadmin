@@ -38,7 +38,7 @@ if (isset($block['name'])) {
     $form->addElement(new XoopsFormLabel(_AM_SYSTEM_BLOCKS_NAME, $block['name']));
 }
 $side_select = new XoopsFormSelect(_AM_BLKTYPE, 'bside', $block['side']);
-$side_select->addOptionArray([0 => _AM_SBLEFT, 1 => _AM_SBRIGHT, 3 => _AM_CBLEFT, 4 => _AM_CBRIGHT, 5 => _AM_CBCENTER,]);
+$side_select->addOptionArray([0 => _AM_SBLEFT, 1 => _AM_SBRIGHT, 3 => _AM_CBLEFT, 4 => _AM_CBRIGHT, 5 => _AM_CBCENTER]);
 $form->addElement($side_select);
 $form->addElement(new XoopsFormText(_AM_WEIGHT, 'bweight', 2, 5, $block['weight']));
 $form->addElement(new XoopsFormRadioYN(_AM_VISIBLE, 'bvisible', $block['visible']));
@@ -52,10 +52,9 @@ $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
-$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') , 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
 
 if ($block['is_custom']) {
-
     // Custom Block's textarea
     $notice_for_tags = '<span style="font-size:x-small;font-weight:bold;">' . _AM_USEFULTAGS . '</span><br><span style="font-size:x-small;font-weight:normal;">' . sprintf(_AM_BLOCKTAG1, '{X_SITEURL}', XOOPS_URL . '/') . '</span>';
     $current_op      = 'clone' === @$_GET['op'] ? 'clone' : 'edit';
@@ -73,11 +72,11 @@ if ($block['is_custom']) {
 } else {
     if ('' != $block['template'] && !defined('XOOPS_ORETEKI')) {
         $tplfileHandler = xoops_getHandler('tplfile');
-        $btemplate      =& $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
+        $btemplate      = &$tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
         if (count($btemplate) > 0) {
             $form->addElement(new XoopsFormLabel(_AM_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&op=edittpl&id=' . $btemplate[0]->getVar('tpl_id') . '">' . _AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
         } else {
-            $btemplate2 =& $tplfileHandler->find('default', 'block', $block['bid']);
+            $btemplate2 = &$tplfileHandler->find('default', 'block', $block['bid']);
             if (count($btemplate2) > 0) {
                 $form->addElement(new XoopsFormLabel(_AM_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&op=edittpl&id=' . $btemplate2[0]->getVar('tpl_id') . '" target="_blank">' . _AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
             }
@@ -104,6 +103,9 @@ $button_tray->addElement(new XoopsFormButton('', 'submitblock', $block['submit_b
 $form->addElement($button_tray);
 
 // checks browser compatibility with the control
+/**
+ * @return bool
+ */
 function check_browser_can_use_spaw()
 {
     $browser = $_SERVER['HTTP_USER_AGENT'];
@@ -114,11 +116,12 @@ function check_browser_can_use_spaw()
             // check version
             if ((float)$version[0] >= 5.5) {
                 // finally check if it's not opera impersonating ie
-                if (false !== strpos($browser, 'opera')) {
+                if (false !== mb_strpos($browser, 'opera')) {
                     return true;
                 }
             }
         }
     }
+
     return false;
 }

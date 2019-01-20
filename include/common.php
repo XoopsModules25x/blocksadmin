@@ -22,7 +22,7 @@ use XoopsModules\Blocksadmin;
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName); //$capsDirName
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Blocksadmin\Helper $helper */

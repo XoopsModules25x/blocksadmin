@@ -50,7 +50,6 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/form.php';
  */
 class MyXoopsGroupPermForm extends XoopsForm
 {
-
     /**
      * Module ID
      * @var int
@@ -86,7 +85,7 @@ class MyXoopsGroupPermForm extends XoopsForm
      */
     public function __construct($title, $modid, $permname, $permdesc)
     {
-        //		$this->XoopsForm($title, 'groupperm_form', XOOPS_URL.'/modules/system/admin/groupperm.php', 'post'); GIJ
+        //      $this->XoopsForm($title, 'groupperm_form', XOOPS_URL.'/modules/system/admin/groupperm.php', 'post'); GIJ
         parent::__construct($title, 'groupperm_form', '', 'post');
         $this->_modid    = (int)$modid;
         $this->_permName = $permname;
@@ -135,10 +134,10 @@ class MyXoopsGroupPermForm extends XoopsForm
         if (!empty($this->_itemTree[$itemId]['children'])) {
             $first_child = $this->_itemTree[$itemId]['children'];
             foreach ($first_child as $fcid) {
-                array_push($childIds, $fcid);
+                $childIds[] = $fcid;
                 if (!empty($this->_itemTree[$fcid]['children'])) {
                     foreach ($this->_itemTree[$fcid]['children'] as $_fcid) {
-                        array_push($childIds, $_fcid);
+                        $childIds[] = $_fcid;
                         $this->_loadAllChildItemIds($_fcid, $childIds);
                     }
                 }
@@ -194,7 +193,7 @@ class MyXoopsGroupPermForm extends XoopsForm
 
         $ret      = '<h4>' . $this->getTitle() . '</h4>' . $this->_permDesc . '<br>';
         $ret      .= "<form name='" . $this->getName() . "' id='" . $this->getName() . "' action='" . $this->getAction() . "' method='" . $this->getMethod() . "'" . $this->getExtra() . ">\n<table width='100%' class='outer' cellspacing='1'>\n";
-        $elements =& $this->getElements();
+        $elements = &$this->getElements();
         foreach (array_keys($elements) as $i) {
             if (!is_object($elements[$i])) {
                 $ret .= $elements[$i];
@@ -209,6 +208,7 @@ class MyXoopsGroupPermForm extends XoopsForm
             }
         }
         $ret .= '</table>' . $GLOBALS['xoopsSecurity']->getTokenHTML() . '</form>';
+
         return $ret;
     }
 }
@@ -224,7 +224,6 @@ class MyXoopsGroupPermForm extends XoopsForm
  */
 class MyXoopsGroupFormCheckBox extends XoopsFormElement
 {
-
     /**
      * Pre-selected value(s)
      * @var array;
@@ -288,7 +287,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
      */
     public function setOptionTree(&$optionTree)
     {
-        $this->_optionTree =& $optionTree;
+        $this->_optionTree = &$optionTree;
     }
 
     /**
@@ -346,6 +345,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
             }
         }
         $ret .= '</tr></table>';
+
         return $ret;
     }
 
@@ -377,7 +377,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
             $tree      .= "var ele = xoopsGetElementById('" . $child_ele . "'); if(this.checked !== true) {ele.checked = false;}";
         }
         $tree .= '" value="1"';
-        if (isset($this->_value) && in_array($option['id'], $this->_value)) {
+        if (isset($this->_value) && in_array($option['id'], $this->_value, true)) {
             $tree .= ' checked';
         }
         $tree .= '>'
@@ -398,7 +398,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
                  . "\"><br>\n";
         if (isset($option['children'])) {
             foreach ($option['children'] as $child) {
-                array_push($parentIds, $option['id']);
+                $parentIds[] = $option['id'];
                 $this->_renderOptionTree($tree, $this->_optionTree[$child], $prefix . '&nbsp;-', $parentIds);
             }
         }

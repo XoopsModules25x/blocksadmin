@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin\Common;
+<?php
+
+namespace XoopsModules\Blocksadmin\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,10 +20,7 @@
  * @author      XOOPS Development Team
  * @package     Publisher
  * @since       1.05
- *
  */
-
-use XoopsModules\Blocksadmin;
 
 // require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -46,7 +45,7 @@ class Configurator
     public function __construct()
     {
         $moduleDirName = basename(dirname(dirname(__DIR__)));
-        $capsDirName   = strtoupper($moduleDirName);
+        $capsDirName   = mb_strtoupper($moduleDirName);
 
         require dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
@@ -60,6 +59,5 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->modCopyright    = $config->modCopyright;
-
     }
 }

@@ -5,10 +5,6 @@
 //                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit;
-}
-
 require __DIR__ . '/admin_header.php';
 
 require_once __DIR__ . '/mygrouppermform.php';
@@ -31,7 +27,7 @@ error_reporting($error_reporting_level);
 
 $group_defs = file("$xoops_system_path/language/$language/admin/groups.php");
 foreach ($group_defs as $def) {
-    if (strstr($def, '_AM_ACCESSRIGHTS') || strstr($def,  constant('CO_' . $moduleDirNameUpper . '_' . 'ACTIVERIGHTS') )) {
+    if (mb_strstr($def, '_AM_ACCESSRIGHTS') || mb_strstr($def, constant('CO_' . $moduleDirNameUpper . '_' . 'ACTIVERIGHTS'))) {
         eval($def);
     }
 }
@@ -45,7 +41,8 @@ if (!is_object($xoopsModule)) {
 $moduleHandler = xoops_getHandler('module');
 if (!empty($_GET['dirname'])) {
     $target_module = $moduleHandler->getByDirname($_GET['dirname']);
-}/* else if( ! empty( $_GET['mid'] ) ) {
+}
+/* else if( ! empty( $_GET['mid'] ) ) {
     $target_module = $moduleHandler->get( intval( $_GET['mid'] ) );
 }*/
 
@@ -80,7 +77,7 @@ while (false !== (list($bid, $bname, $show_func, $func_file, $template) = $db->f
         'name'      => $bname,
         'show_func' => $show_func,
         'func_file' => $func_file,
-        'template'  => $template
+        'template'  => $template,
     ];
 }
 
@@ -96,23 +93,23 @@ function list_blockinstances()
 
     // displaying TH
     echo "
-	<form action='admin.php' name='blockadmin' method='post'>
-		<table width='95%' class='outer' cellpadding='4' cellspacing='1'>
-		<tr valign='middle'>
-			<th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE')  . "</th>
-			<th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
-			<th align='center'>" . _AM_WEIGHT . "</th>
-			<th align='center'>" . _AM_VISIBLEIN . "</th>
-			<th align='center'>" . _AM_BCACHETIME . "</th>
-			<th align='right'>" . _AM_ACTION . "</th>
-		</tr>\n";
+    <form action='admin.php' name='blockadmin' method='post'>
+        <table width='95%' class='outer' cellpadding='4' cellspacing='1'>
+        <tr valign='middle'>
+            <th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
+            <th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
+            <th align='center'>" . _AM_WEIGHT . "</th>
+            <th align='center'>" . _AM_VISIBLEIN . "</th>
+            <th align='center'>" . _AM_BCACHETIME . "</th>
+            <th align='right'>" . _AM_ACTION . "</th>
+        </tr>\n";
 
     // get block instances
     $crit     = new Criteria('bid', '(' . implode(',', array_keys($block_arr)) . ')', 'IN');
     $criteria = new CriteriaCompo($crit);
     $criteria->setSort('visible DESC, side ASC, weight');
     $instanceHandler = xoops_getHandler('blockinstance');
-    $instances       =& $instanceHandler->getObjects($criteria, true, true);
+    $instances       = &$instanceHandler->getObjects($criteria, true, true);
 
     //Get modules and pages for visible in
     $module_list[_AM_SYSTEMLEVEL]['0-2'] = _AM_SYSTEM_BLOCKS_ADMINBLOCK;
@@ -196,7 +193,7 @@ function list_blockinstances()
         foreach ($module_list as $mname => $module) {
             $module_options .= "<optgroup label='$mname'>\n";
             foreach ($module as $mkey => $mval) {
-                if (in_array($mkey, $visiblein)) {
+                if (in_array($mkey, $visiblein, true)) {
                     $module_options .= "<option value='$mkey' selected='selected'>$mval</option>\n";
                 } else {
                     $module_options .= "<option label='$mval' value='$mkey'>$mval</option>\n";
@@ -210,56 +207,56 @@ function list_blockinstances()
 
         // displaying part
         echo "
-		<tr valign='middle'>
-			<td class='$class'>
-				$name
-				<br>
-				<input type='text' name='title[$i]' value='$title' size='20'>
-			</td>
-			<td class='$class' align='center' nowrap='nowrap' width='125px'>
-				<div style='float:left;background-color:$scol0;'>
-					<input type='radio' name='side[$i]' value='" . XOOPS_SIDEBLOCK_LEFT . "' style='background-color:$scol0;' $ssel0>
-				</div>
-				<div style='float:left;'>-</div>
-				<div style='float:left;background-color:$scol2;'>
-					<input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_LEFT . "' style='background-color:$scol2;' $ssel2>
-				</div>
-				<div style='float:left;background-color:$scol3;'>
-					<input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_CENTER . "' style='background-color:$scol3;' $ssel3>
-				</div>
-				<div style='float:left;background-color:$scol4;'>
-					<input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' style='background-color:$scol4;' $ssel4>
-				</div>
-				<div style='float:left;'>-</div>
-				<div style='float:left;background-color:$scol1;'>
-					<input type='radio' name='side[$i]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' style='background-color:$scol1;' $ssel1>
-				</div>
-				<br>
-				<br>
-				<div style='float:left;width:40px;'>&nbsp;</div>
-				<div style='float:left;background-color:$scoln;'>
-					<input type='radio' name='side[$i]' value='-1' style='background-color:$scoln;' $sseln>
-				</div>
-				<div style='float:left;'>" . _NONE . "</div>
-			</td>
-			<td class='$class' align='center'>
-				<input type='text' name=weight[$i] value='$weight' size='3' maxlength='5' style='text-align:right;'>
-			</td>
-			<td class='$class' align='center'>
-				<select name='bmodule[$i][]' size='5' multiple='multiple'>
-					$module_options
-				</select>
-			</td>
-			<td class='$class' align='center'>
-				<select name='bcachetime[$i]' size='1'>
-					$cachetime_options
-				</select>
-			</td>
-			<td class='$class' align='right'>
-				<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=blocksadmin&amp;op=edit&amp;id=$i'>" . _EDIT . "</a>{$delete_link}
-				<input type='hidden' name='id[$i]' value='$i'>
-			</td>
-		</tr>\n";
+        <tr valign='middle'>
+            <td class='$class'>
+                $name
+                <br>
+                <input type='text' name='title[$i]' value='$title' size='20'>
+            </td>
+            <td class='$class' align='center' nowrap='nowrap' width='125px'>
+                <div style='float:left;background-color:$scol0;'>
+                    <input type='radio' name='side[$i]' value='" . XOOPS_SIDEBLOCK_LEFT . "' style='background-color:$scol0;' $ssel0>
+                </div>
+                <div style='float:left;'>-</div>
+                <div style='float:left;background-color:$scol2;'>
+                    <input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_LEFT . "' style='background-color:$scol2;' $ssel2>
+                </div>
+                <div style='float:left;background-color:$scol3;'>
+                    <input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_CENTER . "' style='background-color:$scol3;' $ssel3>
+                </div>
+                <div style='float:left;background-color:$scol4;'>
+                    <input type='radio' name='side[$i]' value='" . XOOPS_CENTERBLOCK_RIGHT . "' style='background-color:$scol4;' $ssel4>
+                </div>
+                <div style='float:left;'>-</div>
+                <div style='float:left;background-color:$scol1;'>
+                    <input type='radio' name='side[$i]' value='" . XOOPS_SIDEBLOCK_RIGHT . "' style='background-color:$scol1;' $ssel1>
+                </div>
+                <br>
+                <br>
+                <div style='float:left;width:40px;'>&nbsp;</div>
+                <div style='float:left;background-color:$scoln;'>
+                    <input type='radio' name='side[$i]' value='-1' style='background-color:$scoln;' $sseln>
+                </div>
+                <div style='float:left;'>" . _NONE . "</div>
+            </td>
+            <td class='$class' align='center'>
+                <input type='text' name=weight[$i] value='$weight' size='3' maxlength='5' style='text-align:right;'>
+            </td>
+            <td class='$class' align='center'>
+                <select name='bmodule[$i][]' size='5' multiple='multiple'>
+                    $module_options
+                </select>
+            </td>
+            <td class='$class' align='center'>
+                <select name='bcachetime[$i]' size='1'>
+                    $cachetime_options
+                </select>
+            </td>
+            <td class='$class' align='right'>
+                <a href='" . XOOPS_URL . "/modules/system/admin.php?fct=blocksadmin&amp;op=edit&amp;id=$i'>" . _EDIT . "</a>{$delete_link}
+                <input type='hidden' name='id[$i]' value='$i'>
+            </td>
+        </tr>\n";
 
         $class = ('even' === $class) ? 'odd' : 'even';
     }
@@ -276,33 +273,33 @@ function list_blockinstances()
         }
 
         echo "
-		<tr>
-			<td class='$class' align='left'>
-				" . $myts->makeTboxData4Edit($block['name']) . "
-			</td>
-			<td class='$class' align='left' colspan='4'>
-				$description4show
-			</td>
-			<td class='$class' align='center'>
-				<input type='submit' name='addblock[$bid]' value='" . _ADD . "'>
-			</td>
-		</tr>
-		\n";
+        <tr>
+            <td class='$class' align='left'>
+                " . $myts->makeTboxData4Edit($block['name']) . "
+            </td>
+            <td class='$class' align='left' colspan='4'>
+                $description4show
+            </td>
+            <td class='$class' align='center'>
+                <input type='submit' name='addblock[$bid]' value='" . _ADD . "'>
+            </td>
+        </tr>
+        \n";
         $class = ('even' === $class) ? 'odd' : 'even';
     }
 
     echo "
-		<tr>
-			<td class='foot' align='center' colspan='6'>
-				<input type='hidden' name='query4redirect' value='$query4redirect'>
-				<input type='hidden' name='fct' value='blocksadmin'>
-				<input type='hidden' name='op' value='order2'>
-				" . $GLOBALS['xoopsSecurity']->getTokenHTML() . "
-				<input type='submit' name='submit' value='" . _SUBMIT . "'>
-			</td>
-		</tr>
-		</table>
-	</form>\n";
+        <tr>
+            <td class='foot' align='center' colspan='6'>
+                <input type='hidden' name='query4redirect' value='$query4redirect'>
+                <input type='hidden' name='fct' value='blocksadmin'>
+                <input type='hidden' name='op' value='order2'>
+                " . $GLOBALS['xoopsSecurity']->getTokenHTML() . "
+                <input type='submit' name='submit' value='" . _SUBMIT . "'>
+            </td>
+        </tr>
+        </table>
+    </form>\n";
 }
 
 // for 2.2

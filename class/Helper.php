@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Blocksadmin;
+<?php
+
+namespace XoopsModules\Blocksadmin;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -70,9 +72,10 @@ class Helper extends \Xmf\Module\Helper
     {
         $ret   = false;
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
-        $class = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
+        $class = '\\XoopsModules\\' . ucfirst(mb_strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
         $ret   = new $class($db);
+
         return $ret;
     }
 }
-//require __DIR__ . '/../../mainfile.php';
+//require  dirname(dirname(__DIR__)) . '/mainfile.php';

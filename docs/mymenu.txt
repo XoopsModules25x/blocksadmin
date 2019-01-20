@@ -12,7 +12,7 @@ BACKGROUND:
 Some newer modules has navigation above its admin's section.
 But once someone click "preferences", the navigation will be lost.
 
-mymenu integrates your modules's preferences seamlessly into your 
+mymenu integrates your modules's preferences seamlessly into your
 module's admin section.
 
 
@@ -25,7 +25,7 @@ HOW TO USE:
 2) copy preferences.inc.php & gtickets.php to modules/(your module)/include/
    (this gtickets.php is compatible for myblocksadmin)
 
-3) edit all of your admin's files and add include('./mymenu.php'); 
+3) edit all of your admin's files and add include('./mymenu.php');
    after xoops_cp_header();
 
 
