@@ -12,6 +12,8 @@ namespace XoopsModules\Blocksadmin\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+
+
 /**
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -26,7 +28,7 @@ trait ServerStats
      */
     public static function getServerStats()
     {
-        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('common', $moduleDirName);
         $html = '';

@@ -5,15 +5,20 @@
 //                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Blocksadmin\Helper;
+/** @var Helper $helper */
+/** @var \XoopsModuleHandler $moduleHandler */
+
 require __DIR__ . '/admin_header.php';
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
-/** @var \XoopsModules\Blocksadmin\Helper $helper */
-$helper = \XoopsModules\Blocksadmin\Helper::getInstance();
+
+$helper = Helper::getInstance();
 $helper->loadLanguage('admin', 'system');
 $helper->loadLanguage('common');
+$helper->loadLanguage('blocksadmin');
 
 //if( substr( XOOPS_VERSION , 6 , 3 ) > 2.0 ) {
 //  require __DIR__ . '/myblocksadmin2.php' ;
@@ -80,14 +85,15 @@ if (!empty($target_module) && is_object($target_module)) {
 }
 
 // check access right (needs system_admin of BLOCK)
-$syspermHandler = xoops_getHandler('groupperm');
-if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser->getGroups())) {
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
+if (!$grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser->getGroups())) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
 }
 
 // get blocks owned by the module (Imported from xoopsblock.php then modified)
 //$block_arr =& XoopsBlock::getByModule( $target_mid ) ;
-$db        = XoopsDatabaseFactory::getDatabaseConnection();
+$db        = \XoopsDatabaseFactory::getDatabaseConnection();
 $sql       = 'SELECT * FROM ' . $db->prefix('newblocks') . " WHERE mid='$target_mid' ORDER BY visible DESC,side,weight";
 $result    = $db->query($sql);
 $block_arr = [];
@@ -135,8 +141,8 @@ function list_blocks()
 
         // visible and side
         if (1 != $block_arr[$i]->getVar('visible')) {
-            $sseln = ' checked';
-            $scoln = '#FF0000';
+            $sseln  = ' checked';
+            $scoln  = '#FF0000';
             $sseln0 = ' checked';
             $scoln0 = '#00FF00';
         } else {
@@ -207,7 +213,7 @@ function list_blocks()
         $db            = \XoopsDatabaseFactory::getDatabaseConnection();
         $result        = $db->query('SELECT module_id FROM ' . $db->prefix('block_module_link') . " WHERE block_id='$bid'");
         $selected_mids = [];
-        while (false !== (list($selected_mid) = $db->fetchRow($result))) {
+        while (list($selected_mid) = $db->fetchRow($result)) {
             $selected_mids[] = (int)$selected_mid;
         }
         $moduleHandler = xoops_getHandler('module');
@@ -219,7 +225,7 @@ function list_blocks()
         ksort($module_list);
         $module_options = '';
         foreach ($module_list as $mid => $mname) {
-            if (in_array($mid, $selected_mids, true)) {
+            if (in_array($mid, $selected_mids)) {
                 $module_options .= "<option value='$mid' selected='selected'>$mname</option>\n";
             } else {
                 $module_options .= "<option value='$mid'>$mname</option>\n";
@@ -232,12 +238,11 @@ function list_blocks()
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $groups           = $memberHandler->getGroups();
-        $groups_perms = $grouppermHandler->getGroupIds('block_read', $block_arr[$i]->getVar('bid'));
-
+        $groups_perms     = $grouppermHandler->getGroupIds('block_read', $block_arr[$i]->getVar('bid'));
 
         //        echo "<td class='$class' align='center'><select size='5' name='groups[" . $block_arr[$i]->getVar('bid') . "][]' id='groups[" . $block_arr[$i]->getVar('bid') . "][]' multiple='multiple'>";
         foreach ($groups as $grp) {
-            $visibleInGroup .= "<option value='" . $grp->getVar('groupid') . "' " . (in_array($grp->getVar('groupid'), $groups_perms, true) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
+            $visibleInGroup .= "<option value='" . $grp->getVar('groupid') . "' " . (in_array($grp->getVar('groupid'), $groups_perms) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
         }
         //        echo '</select></td>';
 
@@ -380,7 +385,8 @@ function get_block_configs()
 {
     $error_reporting_level = error_reporting(0);
     if (preg_match('/^[.0-9a-zA-Z_-]+$/', @$_GET['dirname'])) {
-        include dirname(dirname(__DIR__)) . '/' . $_GET['dirname'] . '/xoops_version.php';
+        xoops_loadLanguage('modinfo', $_GET['dirname']);
+        require dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
     } else {
         require dirname(__DIR__) . '/xoops_version.php';
     }
@@ -437,3 +443,5 @@ if (!empty($block_arr)) {
 
 list_groups();
 xoops_cp_footer();
+
+?>

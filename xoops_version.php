@@ -5,8 +5,8 @@ $moduleDirName = basename(__DIR__);
 // ------------------- Informations ------------------- //
 $modversion = [
     'version'             => 0.4,
-    'module_status'       => 'Alpha 1',
-    'release_date'        => '2019/01/20',
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2020/11/28',
     'name'                => _MI_BLOCKSADMIN_NAME,
     'description'         => _MI_BLOCKSADMIN_DESC,
     'official'            => 0,
@@ -41,8 +41,8 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '5.5',
-    'min_xoops'           => '2.5.9',
+    'min_php'             => '7.2',
+    'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------
@@ -59,7 +59,7 @@ $modversion = [
     //  'onUninstall'         => 'include/onuninstall.php',
     // -------------------  PayPal ---------------------------
     'paypal'              => [
-        'business'      => 'foundation@xoops.org',
+        'business'      => 'xoopsfoundation@gmail.com',
         'item_name'     => 'Donation : ' . _MI_BLOCKSADMIN_NAME,
         'amount'        => 0,
         'currency_code' => 'USD',

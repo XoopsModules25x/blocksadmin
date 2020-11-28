@@ -38,6 +38,7 @@ if (!is_object($xoopsModule)) {
 }
 
 // set target_module if specified by $_GET['dirname']
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 if (!empty($_GET['dirname'])) {
     $target_module = $moduleHandler->getByDirname($_GET['dirname']);
@@ -62,8 +63,9 @@ if (!empty($target_module) && is_object($target_module)) {
 }
 
 // check access right (needs system_admin of BLOCK)
-$syspermHandler = xoops_getHandler('groupperm');
-if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser->getGroups())) {
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
+if (!$grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser->getGroups())) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
 }
 
@@ -72,7 +74,7 @@ $db        = XoopsDatabaseFactory::getDatabaseConnection();
 $sql       = 'SELECT bid,name,show_func,func_file,template FROM ' . $db->prefix('newblocks') . " WHERE mid='$target_mid'";
 $result    = $db->query($sql);
 $block_arr = [];
-while (false !== (list($bid, $bname, $show_func, $func_file, $template) = $db->fetchRow($result))) {
+while (list($bid, $bname, $show_func, $func_file, $template) = $db->fetchRow($result)) {
     $block_arr[$bid] = [
         'name'      => $bname,
         'show_func' => $show_func,
@@ -117,6 +119,7 @@ function list_blockinstances()
     $module_list[_AM_SYSTEMLEVEL]['0-0'] = _AM_SYSTEM_BLOCKS_ALLPAGES;
     $criteria                            = new CriteriaCompo(new Criteria('hasmain', 1));
     $criteria->add(new Criteria('isactive', 1));
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module_main   = $moduleHandler->getObjects($criteria, true, true);
     if (count($module_main) > 0) {
@@ -193,7 +196,7 @@ function list_blockinstances()
         foreach ($module_list as $mname => $module) {
             $module_options .= "<optgroup label='$mname'>\n";
             foreach ($module as $mkey => $mval) {
-                if (in_array($mkey, $visiblein, true)) {
+                if (in_array($mkey, $visiblein)) {
                     $module_options .= "<option value='$mkey' selected='selected'>$mval</option>\n";
                 } else {
                     $module_options .= "<option label='$mval' value='$mkey'>$mval</option>\n";
@@ -267,7 +270,7 @@ function list_blockinstances()
         foreach ($block_configs as $bconf) {
             if ($block['show_func'] == $bconf['show_func'] && $block['func_file'] == $bconf['file'] && (empty($bconf['template']) || $block['template'] == $bconf['template'])) {
                 if (!empty($bconf['description'])) {
-                    $description4show = $myts->makeTboxData4Show($bconf['description']);
+                    $description4show = htmlspecialchars($bconf['description'], ENT_QUOTES | ENT_HTML5);
                 }
             }
         }
@@ -310,7 +313,7 @@ function list_groups2()
     $result = $xoopsDB->query('SELECT i.instanceid,i.title FROM ' . $xoopsDB->prefix('block_instance') . ' i LEFT JOIN ' . $xoopsDB->prefix('newblocks') . " b ON i.bid=b.bid WHERE b.mid='$target_mid'");
 
     $item_list = [];
-    while (false !== (list($iid, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($iid, $title) = $xoopsDB->fetchRow($result)) {
         $item_list[$iid] = $title;
     }
 

@@ -11,26 +11,29 @@
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\Blocksadmin;
+use Xmf\Module\Admin;
+use XoopsModules\Blocksadmin\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
-include dirname(__DIR__) . '/preloads/autoloader.php';
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
-/** @var \XoopsDatabase $db */
-/** @var \XoopsModules\Blocksadmin\Helper $helper */
-/** @var \XoopsModules\Blocksadmin\Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
 $debug   = false;
-$helper  = \XoopsModules\Blocksadmin\Helper::getInstance($debug);
-$utility = new \XoopsModules\Blocksadmin\Utility();
+$helper  = Helper::getInstance($debug);
+$utility = new Utility();
 //$configurator = new Blocksadmin\Common\Configurator();
 
 $helper->loadLanguage('common');
@@ -39,8 +42,8 @@ $helper->loadLanguage('common');
 //$categoryHandler     = new Blocksadmin\CategoryHandler($db);
 //$downloadHandler     = new Blocksadmin\DownloadHandler($db);
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', 16);
+$pathIcon32 = Admin::iconUrl('', 32);
 if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');

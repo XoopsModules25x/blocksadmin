@@ -12,28 +12,33 @@
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author       XOOPS Development Team
  */
-require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+
+use Xmf\Module\Admin;
+use XoopsModules\Blocksadmin\{
+    Helper
+};
+/** @var Helper $helper */
+/** @var Admin $adminObject */
+
+require dirname(__DIR__, 3) . '/include/cp_header.php';
 
 require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 require dirname(__DIR__) . '/include/common.php';
-//require  dirname(__DIR__) . '/include/config.php';
+//require  dirname(__DIR__) . '/config/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-/** @var \XoopsModules\Blocksadmin\Helper $helper */
-$helper = \XoopsModules\Blocksadmin\Helper::getInstance();
-
-/** @var \Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance();
+$helper = Helper::getInstance();
+$adminObject = Admin::getInstance();
 
 //$myts = \MyTextSanitizer::getInstance();
 
-//if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+//if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
 //    require $GLOBALS['xoops']->path('class/template.php');
 //    $xoopsTpl = new XoopsTpl();
 //}
@@ -53,6 +58,6 @@ $helper->loadLanguage('common');
 
 //Module specific elements
 //require $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
-//require $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+//require $GLOBALS['xoops']->path("modules/{$moduleDirName}/config/config.php");
 
 //xoops_cp_header();
