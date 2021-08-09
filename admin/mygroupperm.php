@@ -28,7 +28,7 @@ function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid =
     return true;
 }
 
-// require  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php'; GIJ
+// require  \dirname(__DIR__, 3) . '/include/cp_header.php'; GIJ
 $modid = isset($_POST['modid']) ? (int)$_POST['modid'] : 1;
 // we dont want system module permissions to be changed here ( 1 -> 0 GIJ)
 if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {

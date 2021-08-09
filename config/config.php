@@ -10,16 +10,14 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
- * @author       XOOPS Development Team
+ * @author      XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 xoops_loadLanguage('common', $moduleDirName);
 
@@ -36,10 +34,13 @@ return (object)[
     'uploadFolders'  => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/attachments',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/attachments',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
@@ -78,6 +79,8 @@ return (object)[
     ],
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
+    ],
+    'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
     ],
     'moduleStats'  => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),

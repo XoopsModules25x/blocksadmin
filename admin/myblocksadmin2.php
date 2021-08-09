@@ -5,10 +5,10 @@
 //                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 require_once __DIR__ . '/mygrouppermform.php';
-require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/kernel/block.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -98,12 +98,12 @@ function list_blockinstances()
     <form action='admin.php' name='blockadmin' method='post'>
         <table width='95%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'>
-            <th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
-            <th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
-            <th align='center'>" . _AM_WEIGHT . "</th>
-            <th align='center'>" . _AM_VISIBLEIN . "</th>
-            <th align='center'>" . _AM_BCACHETIME . "</th>
-            <th align='right'>" . _AM_ACTION . "</th>
+            <th>" . _AM_SYSTEM_BLOCKS_TITLE . "</th>
+            <th align='center' nowrap='nowrap'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'SIDE') . "</th>
+            <th align='center'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
+            <th align='right'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTION') . "</th>
         </tr>\n";
 
     // get block instances

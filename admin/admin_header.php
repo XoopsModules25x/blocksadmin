@@ -11,11 +11,9 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
- * @author       XOOPS Development Team
+ * @author      XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
@@ -25,13 +23,13 @@ use XoopsModules\Blocksadmin\{
 /** @var Helper $helper */
 /** @var Admin $adminObject */
 
-require dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 
 require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
-require dirname(__DIR__) . '/include/common.php';
-//require  dirname(__DIR__) . '/config/config.php';
+require \dirname(__DIR__) . '/include/common.php';
+//require  \dirname(__DIR__) . '/config/config.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 
 $helper = Helper::getInstance();
 $adminObject = Admin::getInstance();

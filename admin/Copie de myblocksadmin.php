@@ -5,7 +5,7 @@
 //                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 
 if (mb_substr(XOOPS_VERSION, 6, 3) > 2.0) {
     require __DIR__ . '/myblocksadmin2.php';
@@ -13,7 +13,7 @@ if (mb_substr(XOOPS_VERSION, 6, 3) > 2.0) {
 }
 
 require_once __DIR__ . '/mygrouppermform.php';
-require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/kernel/block.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -95,12 +95,12 @@ function list_blocks()
     <form action='admin.php' name='blockadmin' method='post'>
         <table width='95%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'>
-            <th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
-            <th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
-            <th align='center'>" . _AM_WEIGHT . "</th>
-            <th align='center'>" . _AM_VISIBLEIN . "</th>
-            <th align='center'>" . _AM_BCACHETIME . "</th>
-            <th align='right'>" . _AM_ACTION . "</th>
+            <th>" . _AM_SYSTEM_BLOCKS_TITLE . "</th>
+            <th align='center' nowrap='nowrap'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'SIDE') . "</th>
+            <th align='center'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
+            <th align='right'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTION') . "</th>
         </tr>\n";
 
     // blocks displaying loop
@@ -298,9 +298,9 @@ function get_block_configs()
 {
     $error_reporting_level = error_reporting(0);
     if (preg_match('/^[.0-9a-zA-Z_-]+$/', @$_GET['dirname'])) {
-        require dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
+        require \dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
     } else {
-        require dirname(__DIR__) . '/xoops_version.php';
+        require \dirname(__DIR__) . '/xoops_version.php';
     }
     error_reporting($error_reporting_level);
     if (empty($modversion['blocks'])) {

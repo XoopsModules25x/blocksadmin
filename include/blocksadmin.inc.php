@@ -12,9 +12,7 @@
 
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
- * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author        Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, https://xoops.org/, http://jp.xoops.org/
  * @author        XOOPS Development Team
  */
@@ -28,7 +26,7 @@ use XoopsModules\Blocksadmin\{
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
-require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/kernel/block.php';
 //require XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/main.php';
 
 $helper = Helper::getInstance();
@@ -64,46 +62,14 @@ if (isset($_POST['previewblock'])) {
         exit('Invalid bid.');
     }
 
-    if (!empty($_POST['bside'])) {
-        $bside = (int)$_POST['bside'];
-    } else {
-        $bside = 0;
-    }
-    if (!empty($_POST['bweight'])) {
-        $bweight = (int)$_POST['bweight'];
-    } else {
-        $bweight = 0;
-    }
-    if (!empty($_POST['bvisible'])) {
-        $bvisible = (int)$_POST['bvisible'];
-    } else {
-        $bvisible = 0;
-    }
-    if (!empty($_POST['bmodule'])) {
-        $bmodule = $_POST['bmodule'];
-    } else {
-        $bmodule = [];
-    }
-    if (!empty($_POST['btitle'])) {
-        $btitle = $_POST['btitle'];
-    } else {
-        $btitle = '';
-    }
-    if (!empty($_POST['bcontent'])) {
-        $bcontent = $_POST['bcontent'];
-    } else {
-        $bcontent = '';
-    }
-    if (!empty($_POST['bctype'])) {
-        $bctype = $_POST['bctype'];
-    } else {
-        $bctype = '';
-    }
-    if (!empty($_POST['bcachetime'])) {
-        $bcachetime = (int)$_POST['bcachetime'];
-    } else {
-        $bcachetime = 0;
-    }
+    $bside      = Request::getInt('bside', 0, 'POST');
+    $bweight    = Request::getInt('bweight', 0, 'POST');
+    $bvisible   = Request::getInt('bvisible', 0, 'POST');
+    $bmodule    = Request::getArray('bmodule', [], 'POST');
+    $btitle     = Request::getString('btitle', '', 'POST');
+    $bcontent   = Request::getString('bcontent', '', 'POST');
+    $bctype     = Request::getString('bctype', '', 'POST');
+    $bcachetime = Request::getInt('bcachetime', 0, 'POST');
 
     xoops_cp_header();
     require_once XOOPS_ROOT_PATH . '/class/template.php';
@@ -146,7 +112,7 @@ if (isset($_POST['previewblock'])) {
     $block['is_custom'] = true;
     $block['cachetime'] = $bcachetime;
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br><br>';
-    require dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
+    require \dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
     //echo '<a href="admin.php?fct=blocksadmin">'. _AM_SYSTEM_BLOCKS_ADMIN .'</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;'.$block['form_title'].'<br><br>';
     //require XOOPS_ROOT_PATH.'/modules/system/admin/blocksadmin/blockform.php';
     $GLOBALS['xoopsSecurity']->getTokenHTML();
@@ -420,7 +386,7 @@ if ('edit' === $op) {
     ];
 
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_EDITBLOCK . '<br><br>';
-    require dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
+    require \dirname(__DIR__) . '/admin/myblockform.php'; //GIJ
     $GLOBALS['xoopsSecurity']->getTokenHTML();
     $form->display();
     // end of edit_block() GIJ
@@ -460,7 +426,7 @@ if ('clone' === $op) {
         'submit_button' => _CLONE,
     ];
     echo '<a href="myblocksadmin.php">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . _AM_SYSTEM_BLOCKS_CLONEBLOCK . '<br><br>';
-    require dirname(__DIR__) . '/admin/myblockform.php';
+    require \dirname(__DIR__) . '/admin/myblockform.php';
     $GLOBALS['xoopsSecurity']->getTokenHTML();
     $form->display();
     xoops_cp_footer();

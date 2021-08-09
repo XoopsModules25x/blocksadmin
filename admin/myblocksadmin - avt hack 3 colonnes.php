@@ -7,13 +7,16 @@
 
 require __DIR__ . '/admin_header.php';
 
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+
 if (mb_substr(XOOPS_VERSION, 6, 3) > 2.0) {
     require __DIR__ . '/myblocksadmin2.php';
     exit;
 }
 
 require_once __DIR__ . '/mygrouppermform.php';
-require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/kernel/block.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -88,6 +91,9 @@ function list_blocks()
 {
     global $query4redirect, $block_arr;
 
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+
     // cachetime options
     $cachetimes = ['0' => _NOCACHE, '30' => sprintf(_SECONDS, 30), '60' => _MINUTE, '300' => sprintf(_MINUTES, 5), '1800' => sprintf(_MINUTES, 30), '3600' => _HOUR, '18000' => sprintf(_HOURS, 5), '86400' => _DAY, '259200' => sprintf(_DAYS, 3), '604800' => _WEEK, '2592000' => _MONTH];
 
@@ -96,12 +102,12 @@ function list_blocks()
     <form action='admin.php' name='blockadmin' method='post'>
         <table width='95%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'>
-            <th>" . constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE') . "</th>
-            <th align='center' nowrap='nowrap'>" . _AM_SIDE . "</th>
-            <th align='center'>" . _AM_WEIGHT . "</th>
-            <th align='center'>" . _AM_VISIBLEIN . "</th>
-            <th align='center'>" . _AM_BCACHETIME . "</th>
-            <th align='right'>" . _AM_ACTION . "</th>
+            <th>" . _AM_SYSTEM_BLOCKS_TITLE . "</th>
+            <th align='center' nowrap='nowrap'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'SIDE') . "</th>
+            <th align='center'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
+            <th align='right'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTION') . "</th>
         </tr>\n";
 
     // blocks displaying loop
@@ -285,9 +291,9 @@ function get_block_configs()
 {
     $error_reporting_level = error_reporting(0);
     if (preg_match('/^[.0-9a-zA-Z_-]+$/', @$_GET['dirname'])) {
-        require dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
+        require \dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
     } else {
-        require dirname(__DIR__) . '/xoops_version.php';
+        require \dirname(__DIR__) . '/xoops_version.php';
     }
     error_reporting($error_reporting_level);
     if (empty($modversion['blocks'])) {
@@ -300,6 +306,9 @@ function get_block_configs()
 function list_groups()
 {
     global $target_mid, $target_mname, $block_arr;
+
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
     $item_list = [];
     foreach (array_keys($block_arr) as $i) {

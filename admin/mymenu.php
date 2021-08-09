@@ -10,9 +10,9 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 //require __DIR__ . '/mygrouppermform.php';
-//require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+//require_once XOOPS_ROOT_PATH . '/kernel/block.php';
 
 if (!defined('XOOPS_ORETEKI')) {
     // Skip for ORETEKI XOOPS
@@ -24,9 +24,9 @@ if (!defined('XOOPS_ORETEKI')) {
     }
 
     //    if (file_exists(dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/modinfo.php')) {
-    //        require_once dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/modinfo.php';
+    //        require_once \dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/modinfo.php';
     //    } else {
-    //        require_once dirname(__DIR__) . '/language/english/modinfo.php';
+    //        require_once \dirname(__DIR__) . '/language/english/modinfo.php';
     //    }
 
     $helper = Helper::getInstance();
@@ -96,7 +96,7 @@ if (!defined('XOOPS_ORETEKI')) {
 
     //    $blockHandler = xoops_getModuleHandler('block');
 
-    //    require_once  dirname(dirname(__DIR__)) . '/system/class/block.php';
+    //    require_once \dirname(__DIR__, 2) . '/system/class/block.php';
 
     //    $blockHandler = new \XoopsBlockHandler();
 

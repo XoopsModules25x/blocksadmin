@@ -12,9 +12,7 @@
 
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
- * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author        XOOPS Development Team
  */
 
@@ -26,9 +24,9 @@ use XoopsModules\Blocksadmin\{
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
-require __DIR__ . '/admin_header.php';
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+require_once __DIR__ . '/admin_header.php';
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
 $helper->loadLanguage('admin', 'system');
@@ -58,7 +56,7 @@ $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
-$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new XoopsFormText(_AM_SYSTEM_BLOCKS_TITLE, 'btitle', 50, 255, $block['title']), false);
 
 if ($block['is_custom']) {
     // Custom Block's textarea

@@ -11,9 +11,7 @@
 
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
- * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author        Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, https://xoops.org/, http://jp.xoops.org/
  * @author        XOOPS Development Team
  */
@@ -46,7 +44,7 @@ $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
-$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new XoopsFormText(_AM_SYSTEM_BLOCKS_TITLE, 'btitle', 50, 255, $block['title']), false);
 
 if ($block['is_custom']) {
     // Custom Block's textarea
@@ -107,7 +105,7 @@ function check_browser_can_use_spaw()
     // check if msie
     if (preg_match('/MSIE[^;]*/i', $browser, $msie)) {
         // get version
-        if (preg_match('/[0-9]+\.[0-9]+/i', $msie[0], $version)) {
+        if (preg_match('/\d+\.\d+/i', $msie[0], $version)) {
             // check version
             if ((float)$version[0] >= 5.5) {
                 // finally check if it's not opera impersonating ie
