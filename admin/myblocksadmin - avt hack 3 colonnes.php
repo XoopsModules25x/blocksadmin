@@ -16,7 +16,7 @@ if (mb_substr(XOOPS_VERSION, 6, 3) > 2.0) {
 }
 
 require_once __DIR__ . '/mygrouppermform.php';
-require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 

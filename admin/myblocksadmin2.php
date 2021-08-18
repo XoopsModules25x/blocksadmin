@@ -8,7 +8,7 @@
 require_once __DIR__ . '/admin_header.php';
 
 require_once __DIR__ . '/mygrouppermform.php';
-require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -111,7 +111,7 @@ function list_blockinstances()
     $criteria = new CriteriaCompo($crit);
     $criteria->setSort('visible DESC, side ASC, weight');
     $instanceHandler = xoops_getHandler('blockinstance');
-    $instances       = &$instanceHandler->getObjects($criteria, true, true);
+    $instances       = &$instanceHandler->getObjects($criteria, true);
 
     //Get modules and pages for visible in
     $module_list[_AM_SYSTEMLEVEL]['0-2'] = _AM_SYSTEM_BLOCKS_ADMINBLOCK;

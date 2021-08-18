@@ -12,7 +12,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 require_once __DIR__ . '/admin_header.php';
 //require __DIR__ . '/mygrouppermform.php';
-//require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+//require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
 if (!defined('XOOPS_ORETEKI')) {
     // Skip for ORETEKI XOOPS

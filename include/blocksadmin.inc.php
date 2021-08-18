@@ -26,7 +26,7 @@ use XoopsModules\Blocksadmin\{
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
-require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 //require XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/main.php';
 
 $helper = Helper::getInstance();
