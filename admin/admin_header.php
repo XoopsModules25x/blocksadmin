@@ -53,6 +53,7 @@ $adminObject = Admin::getInstance();
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('common');
+$helper->loadLanguage('blocksadmin');
 
 //Module specific elements
 //require $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
