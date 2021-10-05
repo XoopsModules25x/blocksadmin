@@ -1,3 +1,12 @@
+<h5>0.40 Beta 3   [2021-10-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.23, PHP 8.0.11
+<hr>
+- fix for issue #5 (alain01/mamba) https://github.com/XoopsModules25x/blocksadmin/issues/5
+- missing pathIcon16 (mamba)
+- fix delete block (mamba)
+- add language/admin.php (mamba)
+- cosmetics (mamba)
+
+
 <h5>0.40 Beta 2   [2021-10-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.23, PHP 8.0.11
 <hr>
 - fixed Menu tab for BlocksAdmin (mamba)
