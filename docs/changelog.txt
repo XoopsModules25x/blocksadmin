@@ -1,3 +1,8 @@
+<h5>0.40 Beta 4   [2021-10-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.23, PHP 8.0.11
+<hr>
+- add missing footer alignments (mamba)
+- simplify language call with xoops_loadLanguage (mamba)
+
 <h5>0.40 Beta 3   [2021-10-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.23, PHP 8.0.11
 <hr>
 - fix for issue #5 (alain01/mamba) https://github.com/XoopsModules25x/blocksadmin/issues/5
