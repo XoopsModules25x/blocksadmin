@@ -19,6 +19,7 @@
 use XoopsModules\Blocksadmin\{
     Helper
 };
+
 /** @var Helper $helper */
 
 if (!defined('XOOPS_ROOT_PATH')) {
@@ -41,7 +42,19 @@ if (isset($block['name'])) {
     $form->addElement(new XoopsFormLabel(_AM_SYSTEM_BLOCKS_NAME, $block['name']));
 }
 $side_select = new XoopsFormSelect(_AM_SYSTEM_BLOCKS_TYPE, 'bside', $block['side']);
-$side_select->addOptionArray([0 => _AM_SYSTEM_BLOCKS_SBLEFT, 1 => _AM_SYSTEM_BLOCKS_SBRIGHT, 3 => _AM_SYSTEM_BLOCKS_CBLEFT, 4 => _AM_SYSTEM_BLOCKS_CBRIGHT, 5 => _AM_SYSTEM_BLOCKS_CBCENTER, 7 => _AM_SYSTEM_BLOCKS_CBBOTTOMLEFT, 8 => _AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT, 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM]);
+$side_select->addOptionArray([
+                                 0 => _AM_SYSTEM_BLOCKS_SBLEFT,
+                                 1 => _AM_SYSTEM_BLOCKS_SBRIGHT,
+                                 3 => _AM_SYSTEM_BLOCKS_CBLEFT,
+                                 4 => _AM_SYSTEM_BLOCKS_CBRIGHT,
+                                 5 => _AM_SYSTEM_BLOCKS_CBCENTER,
+                                 7 => _AM_SYSTEM_BLOCKS_CBBOTTOMLEFT,
+                                 8 => _AM_SYSTEM_BLOCKS_CBBOTTOMRIGHT,
+                                 9 => _AM_SYSTEM_BLOCKS_CBBOTTOM,
+                                 10 => _AM_SYSTEM_BLOCKS_CBFOOTERLEFT,
+                                 11 => _AM_SYSTEM_BLOCKS_CBFOOTERRIGHT,
+                                 12 => _AM_SYSTEM_BLOCKS_CBFOOTERCENTER,
+                             ]);
 $form->addElement($side_select);
 $form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT'), 'bweight', 2, 5, $block['weight']));
 $form->addElement(new XoopsFormRadioYN(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE'), 'bvisible', $block['visible']));
