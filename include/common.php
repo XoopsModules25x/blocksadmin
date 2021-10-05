@@ -40,8 +40,8 @@ $helper->loadLanguage('common');
 //$categoryHandler     = new Blocksadmin\CategoryHandler($db);
 //$downloadHandler     = new Blocksadmin\DownloadHandler($db);
 
-$pathIcon16 = Admin::iconUrl('', 16);
-$pathIcon32 = Admin::iconUrl('', 32);
+$pathIcon16 = Admin::iconUrl('', '16');
+$pathIcon32 = Admin::iconUrl('', '32');
 if (is_object($helper->getModule())) {
     $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
