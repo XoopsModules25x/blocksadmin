@@ -420,10 +420,10 @@ if ('save' === $op) {
                         $imageHandler = xoops_getHandler('imagesetimg');
                         $imagefiles   = &$imageHandler->getObjects(new Criteria('tplset_name', $newtplset), true);
                         foreach (array_keys($imagefiles) as $i) {
-                            if (!$fp = fopen(XOOPS_CACHE_PATH . '/' . $newtplset . '_' . $imagefiles[$i]->getVar('imgsetimg_file'), 'wb')) {
-                            } else {
+                            if ($fp = fopen(XOOPS_CACHE_PATH . '/' . $newtplset . '_' . $imagefiles[$i]->getVar('imgsetimg_file'), 'wb')) {
                                 fwrite($fp, $imagefiles[$i]->getVar('imgsetimg_body'));
                                 fclose($fp);
+                            } else {
                             }
                         }
                     }

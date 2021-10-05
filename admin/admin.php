@@ -101,12 +101,12 @@ if (false !== $error) {
     echo '<tr>';
     $groups = $xoopsUser->getGroups();
     $all_ok = false;
-    if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
+    if (in_array(XOOPS_GROUP_ADMIN, $groups)) {
+        $all_ok = true;
+    } else {
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $ok_syscats       = $grouppermHandler->getItemIds('system_admin', $groups);
-    } else {
-        $all_ok = true;
     }
     $admin_dir = XOOPS_ROOT_PATH . '/modules/system/admin';
     $handle    = opendir($admin_dir);
