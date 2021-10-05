@@ -1,40 +1,36 @@
 <?php
-// $Id: myblockform.php,v 1.8 2003/03/10 13:32:05 okazu Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author        XOOPS Development Team
+ */
+
+use XoopsModules\Blocksadmin\{
+    Helper
+};
+/** @var Helper $helper */
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
-require __DIR__ . '/admin_header.php';
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+require_once __DIR__ . '/admin_header.php';
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-/** @var \XoopsModules\Blocksadmin\Helper $helper */
-$helper = \XoopsModules\Blocksadmin\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('admin', 'system');
+$helper->loadLanguage('common');
 
 $usespaw = empty($_GET['usespaw']) ? 0 : 1;
 
@@ -49,7 +45,8 @@ $side_select->addOptionArray([0 => _AM_SYSTEM_BLOCKS_SBLEFT, 1 => _AM_SYSTEM_BLO
 $form->addElement($side_select);
 $form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT'), 'bweight', 2, 5, $block['weight']));
 $form->addElement(new XoopsFormRadioYN(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLE'), 'bvisible', $block['visible']));
-$mod_select    = new XoopsFormSelect(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN'), 'bmodule', $block['modules'], 5, true);
+$mod_select = new XoopsFormSelect(constant('CO_' . $moduleDirNameUpper . '_' . 'VISIBLEIN'), 'bmodule', $block['modules'], 5, true);
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $criteria      = new CriteriaCompo(new Criteria('hasmain', 1));
 $criteria->add(new Criteria('isactive', 1));
@@ -59,7 +56,7 @@ $module_list[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
 ksort($module_list);
 $mod_select->addOptionArray($module_list);
 $form->addElement($mod_select);
-$form->addElement(new XoopsFormText(constant('CO_' . $moduleDirNameUpper . '_' . 'TITLE'), 'btitle', 50, 255, $block['title']), false);
+$form->addElement(new XoopsFormText(_AM_SYSTEM_BLOCKS_TITLE, 'btitle', 50, 255, $block['title']), false);
 
 if ($block['is_custom']) {
     // Custom Block's textarea
@@ -68,7 +65,7 @@ if ($block['is_custom']) {
     $uri_to_myself   = XOOPS_URL . "/modules/blocksadmin/admin/admin.php?fct=blocksadmin&amp;op=$current_op&amp;bid={$block['bid']}";
     // $can_use_spaw = check_browser_can_use_spaw() ;
     $myts     = MyTextSanitizer::getInstance();
-    $textarea = new XoopsFormDhtmlTextArea(_AM_SYSTEM_BLOCKS_CONTENT, 'bcontent', $myts->htmlSpecialChars($block['content']), 15, 70);
+    $textarea = new XoopsFormDhtmlTextArea(_AM_SYSTEM_BLOCKS_CONTENT, 'bcontent', htmlspecialchars($block['content'], ENT_QUOTES | ENT_HTML5), 15, 70);
     $textarea->setDescription($notice_for_tags);
 
     $form->addElement($textarea, true);
@@ -78,6 +75,7 @@ if ($block['is_custom']) {
     $form->addElement($ctype_select);
 } else {
     if ('' != $block['template'] && !defined('XOOPS_ORETEKI')) {
+        /** @var \XoopsTplfileHandler $tplfileHandler */
         $tplfileHandler = xoops_getHandler('tplfile');
         $btemplate      = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
         if (count($btemplate) > 0) {
@@ -119,7 +117,7 @@ function check_browser_can_use_spaw()
     // check if msie
     if (preg_match('/MSIE[^;]*/i', $browser, $msie)) {
         // get version
-        if (preg_match("/\d+\.\d+/i", $msie[0], $version)) {
+        if (preg_match('/\d+\.\d+/i', $msie[0], $version)) {
             // check version
             if ((float)$version[0] >= 5.5) {
                 // finally check if it's not opera impersonating ie

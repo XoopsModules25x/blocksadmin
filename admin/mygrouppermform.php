@@ -1,33 +1,21 @@
 <?php
-// $Id: grouppermform.php,v 1.4 2003/09/29 18:25:27 okazu Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000-2003 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, https://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
+
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author        Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, https://xoops.org/, http://jp.xoops.org/
+ * @author        XOOPS Development Team
+ */
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
@@ -158,17 +146,19 @@ class MyXoopsGroupPermForm extends XoopsForm
             $this->_itemTree[$item_id]['allchild'] = [];
             $this->_loadAllChildItemIds($item_id, $this->_itemTree[$item_id]['allchild']);
         }
-        $gpermHandler  = xoops_getHandler('groupperm');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
         $glist         = $memberHandler->getGroupList();
         foreach (array_keys($glist) as $i) {
             // get selected item id(s) for each group
-            $selected = $gpermHandler->getItemIds($this->_permName, $i, $this->_modid);
+            $selected = $grouppermHandler->getItemIds($this->_permName, $i, $this->_modid);
             $ele      = new MyXoopsGroupFormCheckBox($glist[$i], 'perms[' . $this->_permName . ']', $i, $selected);
             $ele->setOptionTree($this->_itemTree);
 
             foreach ($this->_appendix as $key => $append) {
-                $this->_appendix[$key]['selected'] = $gpermHandler->checkRight($append['permname'], $append['itemid'], $i, $this->_modid);
+                $this->_appendix[$key]['selected'] = $grouppermHandler->checkRight($append['permname'], $append['itemid'], $i, $this->_modid);
             }
             $ele->setAppendix($this->_appendix);
             $this->addElement($ele);
@@ -197,14 +187,14 @@ class MyXoopsGroupPermForm extends XoopsForm
         foreach (array_keys($elements) as $i) {
             if (!is_object($elements[$i])) {
                 $ret .= $elements[$i];
-            } elseif (!$elements[$i]->isHidden()) {
+            } elseif ($elements[$i]->isHidden()) {
+                $ret .= $elements[$i]->render();
+            } else {
                 $ret .= "<tr valign='top' align='left'><td class='head'>" . $elements[$i]->getCaption();
                 if ('' != $elements[$i]->getDescription()) {
                     $ret .= '<br><br><span style="font-weight: normal;">' . $elements[$i]->getDescription() . '</span>';
                 }
                 $ret .= "</td>\n<td class='even'>\n" . $elements[$i]->render() . "\n</td></tr>\n";
-            } else {
-                $ret .= $elements[$i]->render();
             }
         }
         $ret .= '</table>' . $GLOBALS['xoopsSecurity']->getTokenHTML() . '</form>';
@@ -321,7 +311,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
                 }
                 $checked = $append['selected'] ? 'checked' : '';
                 $name    = 'perms[' . $append['permname'] . ']';
-                $itemid  = $append['itemid'];
+//                $itemid  = $append['itemid'];
                 $itemid  = $append['itemid'];
                 $ret     .= "<td class=\"odd\"><input type=\"checkbox\" name=\"{$name}[groups][$this->_groupId][$itemid]\" id=\"{$name}[groups][$this->_groupId][$itemid]\" value=\"1\" $checked>{$append['itemname']}<input type=\"hidden\" name=\"{$name}[parents][$itemid]\" value=\"\"><input type=\"hidden\" name=\"{$name}[itemname][$itemid]\" value=\"{$append['itemname']}\"><br></td>";
                 $cols++;
@@ -377,25 +367,13 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
             $tree      .= "var ele = xoopsGetElementById('" . $child_ele . "'); if(this.checked !== true) {ele.checked = false;}";
         }
         $tree .= '" value="1"';
-        if (isset($this->_value) && in_array($option['id'], $this->_value, true)) {
+        if (isset($this->_value) && in_array($option['id'], $this->_value)) {
             $tree .= ' checked';
         }
-        $tree .= '>'
-                 . $option['name']
-                 . '<input type="hidden" name="'
-                 . $this->getName()
-                 . '[parents]['
-                 . $option['id']
-                 . ']" value="'
-                 . implode(':', $parentIds)
-                 . '"><input type="hidden" name="'
-                 . $this->getName()
-                 . '[itemname]['
-                 . $option['id']
-                 . ']" value="'
-                 . htmlspecialchars($option['name'], ENT_QUOTES
-                                                     | ENT_HTML5)
-                 . "\"><br>\n";
+        $tree .= '>' . $option['name'] . '<input type="hidden" name="' . $this->getName() . '[parents][' . $option['id'] . ']" value="' . implode(':', $parentIds) . '"><input type="hidden" name="' . $this->getName() . '[itemname][' . $option['id'] . ']" value="' . htmlspecialchars(
+                $option['name'],
+                ENT_QUOTES | ENT_HTML5
+            ) . "\"><br>\n";
         if (isset($option['children'])) {
             foreach ($option['children'] as $child) {
                 $parentIds[] = $option['id'];

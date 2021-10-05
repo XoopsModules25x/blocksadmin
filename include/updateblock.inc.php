@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit;
@@ -10,7 +9,7 @@ if (mb_substr(XOOPS_VERSION, 6, 3) < 2.1) {
     global $xoopsDB;
     $query  = 'SELECT mid FROM ' . $xoopsDB->prefix('modules') . " WHERE dirname='" . $modversion['dirname'] . "' ";
     $result = $xoopsDB->query($query);
-    $record = $xoopsDB->fetcharray($result);
+    $record = $xoopsDB->fetchArray($result);
     if ($record) {
         $mid   = $record['mid'];
         $count = count($modversion['blocks']);
@@ -19,7 +18,7 @@ if (mb_substr(XOOPS_VERSION, 6, 3) < 2.1) {
         $n_funcnum = $count;
         while (false !== ($fblock = $xoopsDB->fetchArray($fresult))) {
             $bnum = 0;
-            for ($i = 1 ; $i <= $count ; $i++) {
+            for ($i = 1 ; $i <= $count ; ++$i) {
                 if (($modversion['blocks'][$i]['file'] == $fblock['func_file']) and ($modversion['blocks'][$i]['show_func'] == $fblock['show_func'])) {
                     $bnum = $i;
                     break;
@@ -66,7 +65,7 @@ if (mb_substr(XOOPS_VERSION, 6, 3) < 2.1) {
             $iret         = $xoopsDB->query($sql);
         }
 
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; ++$i) {
             $sql     = 'SELECT name,options FROM ' . $xoopsDB->prefix('newblocks') . ' WHERE mid=' . $mid . ' AND func_num=' . $i . " AND show_func='" . addslashes($modversion['blocks'][$i]['show_func']) . "' AND func_file='" . addslashes($modversion['blocks'][$i]['file']) . "'";
             $fresult = $xoopsDB->query($sql);
             $fblock  = $xoopsDB->fetchArray($fresult);

@@ -15,7 +15,7 @@ namespace XoopsModules\Blocksadmin\Common;
 /**
  * Breadcrumb Class
  *
- * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Blocksadmin
@@ -31,8 +31,6 @@ namespace XoopsModules\Blocksadmin\Common;
 use XoopsModules\Blocksadmin;
 use XoopsModules\Blocksadmin\Common;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS Root Path not defined');
-
 /**
  * Class Breadcrumb
  */
@@ -43,7 +41,7 @@ class Breadcrumb
 
     public function __construct()
     {
-        $this->dirname = basename(dirname(dirname(__DIR__)));
+        $this->dirname = \basename(\dirname(__DIR__, 2));
     }
 
     /**
@@ -65,7 +63,7 @@ class Breadcrumb
      */
     public function render()
     {
-        if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+        if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
             require $GLOBALS['xoops']->path('class/theme.php');
             $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }

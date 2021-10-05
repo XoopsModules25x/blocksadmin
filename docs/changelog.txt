@@ -1,9 +1,14 @@
-<h5>0.40 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.9, PHP 7.3.1
+<h5>0.40 Beta 2   [2021-10-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.23, PHP 8.0.11
+<hr>
+- fixed Menu tab for BlocksAdmin (mamba)
+- remove old code (mamba)
+
+<h5>0.40 Beta 1   [2020-11-28]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
 <hr>
 - added footer blocks  (mamba)
 - namespaces (mamba)
 - class autoloading (mamba)
-WORK IN PROGRESS
+- PHP7, PHP8 adjustments (mamba)
 
 <h5>0.34 Dugris</h5>
 <hr>
