@@ -103,7 +103,7 @@ while (false !== ($myrow = $db->fetchArray($result))) {
 
 function list_blocks()
 {
-    global $query4redirect, $block_arr;
+    global $query4redirect, $block_arr, $pathIcon16;
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
