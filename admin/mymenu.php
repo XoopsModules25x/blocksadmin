@@ -119,6 +119,7 @@ if (!defined('XOOPS_ORETEKI')) {
     foreach ($modules as $list) {
         $sel_gen->addOption($list->getVar('dirname'), $list->getVar('name'));
     }
+    ksort($sel_gen->_options);
     $filterform->addElement($sel_gen);
 
     /*

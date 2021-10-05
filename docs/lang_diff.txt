@@ -3,6 +3,9 @@ LANGUAGE DIFFERENCES
 
 Below are language differences from a version to next version.
 
+0.40 Beta 3
++ language/admin.php (mamba)
+
 Legend :
 + Added
 - Removed
