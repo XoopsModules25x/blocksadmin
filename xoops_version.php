@@ -5,7 +5,7 @@ $moduleDirName = basename(__DIR__);
 // ------------------- Informations ------------------- //
 $modversion = [
     'version'             => 0.4,
-    'module_status'       => 'Beta 3',
+    'module_status'       => 'Beta 4',
     'release_date'        => '2021/10/05',
     'name'                => _MI_BLOCKSADMIN_NAME,
     'description'         => _MI_BLOCKSADMIN_DESC,
