@@ -30,23 +30,23 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 //require XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/main.php';
 
 $helper = Helper::getInstance();
+$helper->loadLanguage('admin');
 $helper->loadLanguage('common');
-
-//xoops_loadLanguage('common', 'blocksadmin');
 
 $op = 'list';
 
 if (!empty($_POST['op'])) {
-    $op = $_POST['op'];
+    $op = Request::getCmd('op', '', 'POST');
 }
 if (!empty($_POST['bid'])) {
-    $bid = (int)$_POST['bid'];
+    $bid = Request::getInt('bid', 0, 'POST');
 }
 
 if (isset($_GET['op'])) {
-    if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op'] || 'clone' === $_GET['op'] /* || $_GET['op'] == 'previewpopup'*/) {
-        $op  = $_GET['op'];
-        $bid = isset($_GET['bid']) ? (int)$_GET['bid'] : 0;
+    if (in_array(Request::getCmd('op', '', 'GET'), ['edit', 'delete', 'delete_ok', 'clone'])){
+//    if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op'] || 'clone' === $_GET['op'] /* || $_GET['op'] == 'previewpopup'*/) {
+        $op  = Request::getCmd('op', '', 'GET');
+        $bid = Request::getInt('bid', 0, 'GET');
     }
 }
 
@@ -311,7 +311,7 @@ if ('delete_ok' === $op) {
     }
     // delete_block_ok($bid); GIJ imported from blocksadmin.php
     $myblock = new XoopsBlock($bid);
-    if ('D' !== $myblock->getVar('block_type') || 'C' !== $myblock->getVar('block_type')) {
+    if ('D' !== $myblock->getVar('block_type') && 'C' !== $myblock->getVar('block_type')) {
         redirect_header('myblocksadmin.php', 4, 'Invalid block');
         exit();
     }
