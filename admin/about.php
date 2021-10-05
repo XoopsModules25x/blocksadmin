@@ -14,6 +14,10 @@
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      XOOPS Development Team
  */
+
+use Xmf\Module\Admin;
+/** @var Admin $adminObject */
+
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
