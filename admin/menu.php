@@ -34,7 +34,7 @@ $adminmenu[] = [
 
 $adminmenu[] = [
     'title' => _MI_BLOCKS_ADMIN_BLOCKS,
-    'link'  => 'admin/myblocksadmin.php?dirname=system',
+    'link'  => 'admin/myblocksadmin.php',
     'icon'  => $pathIcon32 . '/manage.png',
 ];
 
